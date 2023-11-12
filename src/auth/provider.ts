@@ -2,31 +2,31 @@ import { fetchToken, setToken } from '.';
 import { fetchProfile } from '../spotify';
 import type { SpotifyProfile } from './types';
 
-interface AuthProvider {
-  isAuthenticated: boolean;
-  profile: null | SpotifyProfile;
-  signin(code: string): Promise<void>;
-  signout(): Promise<void>;
-}
+class AuthProvider {
+  public profile: null | SpotifyProfile = null;
 
-const provider: AuthProvider = {
-  isAuthenticated: false,
-  profile: null,
   async signin(code: string) {
     const token = await fetchToken(code);
     setToken(token);
 
-    const profile = await fetchProfile();
-    console.log(profile);
+    await this.load();
+  }
 
-    provider.isAuthenticated = true;
-    provider.profile = profile;
-  },
+  async load() {
+    try {
+      const profile = await fetchProfile();
+      console.log(profile);
+
+      this.profile = profile;
+    } catch {
+      //
+    }
+  }
+
   async signout() {
     // TODO: clear token
-    provider.isAuthenticated = false;
-    provider.profile = null;
+    this.profile = null;
   }
-};
+}
 
-export default provider;
+export default new AuthProvider();

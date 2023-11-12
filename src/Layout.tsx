@@ -4,8 +4,6 @@ import type { SpotifyProfile } from './auth/types';
 import { redirectToAuthCodeFlow } from './auth';
 
 export default function Layout() {
-  //TODO: if logged out, do not display routes
-
   const { profile } = useLoaderData() as { profile: SpotifyProfile };
 
   if (!profile)
@@ -19,7 +17,7 @@ export default function Layout() {
     <>
       <nav>This is nav</nav>
 
-      <pre>{JSON.stringify(profile)}</pre>
+      <pre>{JSON.stringify(profile, null, 4)}</pre>
 
       <Outlet />
     </>

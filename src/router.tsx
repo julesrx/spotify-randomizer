@@ -7,9 +7,9 @@ const router = createBrowserRouter([
   {
     path: '/',
     loader: async () => {
-      const profile = provider.profile;
+      await provider.load();
 
-      // TODO: load and return profile
+      const profile = provider.profile;
       return { profile };
     },
     element: <Layout />,
