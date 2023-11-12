@@ -1,7 +1,7 @@
 import { ofetch } from 'ofetch';
+import type { UserProfile } from '@spotify/web-api-ts-sdk';
 
 import { getToken } from './auth';
-import type { SpotifyProfile } from './auth/types';
 
 const api = ofetch.create({
   baseURL: 'https://api.spotify.com/v1',
@@ -14,9 +14,4 @@ const api = ofetch.create({
   }
 });
 
-export async function fetchProfile(): Promise<SpotifyProfile> {
-  const res = await api<SpotifyProfile>('me');
-  console.log(res);
-
-  return res;
-}
+export const getProfile = async (): Promise<UserProfile> => await api<UserProfile>('me');

@@ -2,7 +2,6 @@ import { ofetch } from 'ofetch';
 import { redirect, type LoaderFunctionArgs } from 'react-router-dom';
 
 import { generateCodeChallenge, generateCodeVerifier } from './utils';
-import type { TokenResponse } from './types';
 import auth from './provider';
 
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
@@ -69,3 +68,12 @@ export const callbackLoader = async ({ request }: LoaderFunctionArgs) => {
   await auth.signin(code);
   return redirect('/');
 };
+
+// ----
+interface TokenResponse {
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  scope: string;
+  token_type: string;
+}

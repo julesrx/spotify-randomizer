@@ -1,9 +1,10 @@
+import type { UserProfile } from '@spotify/web-api-ts-sdk';
+
 import { fetchToken, setToken } from '.';
-import { fetchProfile } from '../spotify';
-import type { SpotifyProfile } from './types';
+import { getProfile } from '../spotify';
 
 class AuthProvider {
-  public profile: null | SpotifyProfile = null;
+  public profile: null | UserProfile = null;
 
   async signin(code: string) {
     const token = await fetchToken(code);
@@ -13,14 +14,12 @@ class AuthProvider {
   }
 
   async load() {
-    try {
-      const profile = await fetchProfile();
-      console.log(profile);
+    if (this.profile) return;
 
-      this.profile = profile;
-    } catch {
-      //
-    }
+    const profile = await getProfile();
+    console.log('Loaded user profile', profile);
+
+    this.profile = profile;
   }
 
   async signout() {
