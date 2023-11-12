@@ -1,0 +1,3 @@
+- refresh token and expiration
+- lohout user if the scopes have changed
+- use spotify sdk ?

@@ -3,6 +3,7 @@ import type { UserProfile } from '@spotify/web-api-ts-sdk';
 
 import { redirectToAuthCodeFlow } from './auth';
 import auth from './auth/provider';
+import PlaybackState from './components/PlaybackState';
 
 export default function Layout() {
   const profile = useLoaderData() as UserProfile;
@@ -33,12 +34,14 @@ export default function Layout() {
           {profile.images[0] && <img src={profile.images[0].url} />}
         </div>
 
-        <button type="button" onClick={() => logout()}>Logout</button>
+        <button type="button" onClick={() => logout()}>
+          Logout
+        </button>
       </nav>
 
-      <pre>{JSON.stringify(profile, null, 4)}</pre>
-
       <Outlet />
+
+      <PlaybackState />
     </>
   );
 }

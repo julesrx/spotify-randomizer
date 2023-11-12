@@ -1,5 +1,5 @@
 import { ofetch } from 'ofetch';
-import type { UserProfile } from '@spotify/web-api-ts-sdk';
+import type { PlaybackState, UserProfile } from '@spotify/web-api-ts-sdk';
 
 import { getToken } from './auth';
 
@@ -14,4 +14,5 @@ const api = ofetch.create({
   }
 });
 
-export const getProfile = async (): Promise<UserProfile> => await api<UserProfile>('me');
+export const getProfile = async () => await api<UserProfile>('me');
+export const getPlaybackState = async () => await api<PlaybackState>('me/player');
