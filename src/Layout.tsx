@@ -1,10 +1,17 @@
-import { NavLink, Outlet, useLoaderData } from 'react-router-dom';
+import { NavLink, Outlet, useLoaderData, useNavigate } from 'react-router-dom';
+import type { UserProfile } from '@spotify/web-api-ts-sdk';
 
-import type { SpotifyProfile } from './auth/types';
 import { redirectToAuthCodeFlow } from './auth';
+import auth from './auth/provider';
 
 export default function Layout() {
-  const { profile } = useLoaderData() as { profile: SpotifyProfile };
+  const profile = useLoaderData() as UserProfile;
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    await auth.signout();
+    navigate('/', { replace: true });
+  };
 
   if (!profile)
     return (
@@ -22,9 +29,11 @@ export default function Layout() {
         <NavLink to="/about">About</NavLink>
 
         <div>
-            <h2>Welcome {profile.display_name}!</h2>
-            {profile.images[0] && <img src={profile.images[0].url} />}
+          <h2>Welcome {profile.display_name}!</h2>
+          {profile.images[0] && <img src={profile.images[0].url} />}
         </div>
+
+        <button type="button" onClick={() => logout()}>Logout</button>
       </nav>
 
       <pre>{JSON.stringify(profile, null, 4)}</pre>

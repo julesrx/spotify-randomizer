@@ -1,4 +1,4 @@
-import { createBrowserRouter, redirect } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import { callbackLoader, callbackUri } from './auth';
 import Layout from './Layout';
 import provider from './auth/provider';
@@ -12,10 +12,9 @@ const router = createBrowserRouter([
 
         console.log('layout loader');
 
-        const profile = provider.profile;
-        return { profile };
+        return provider.profile;
       } catch {
-        return redirect(callbackUri);
+        return null;
       }
     },
     element: <Layout />,

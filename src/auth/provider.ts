@@ -1,6 +1,6 @@
 import type { UserProfile } from '@spotify/web-api-ts-sdk';
 
-import { fetchToken, setToken } from '.';
+import { clearToken, fetchToken, setToken } from '.';
 import { getProfile } from '../spotify';
 
 class AuthProvider {
@@ -24,6 +24,7 @@ class AuthProvider {
 
   async signout() {
     // TODO: clear token
+    clearToken();
     this.profile = null;
   }
 }

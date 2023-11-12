@@ -52,6 +52,10 @@ export const setToken = (response: TokenResponse) => {
   localStorage.setItem(tokenKey, JSON.stringify(response));
 };
 
+export const clearToken = () => {
+  localStorage.removeItem(tokenKey);
+};
+
 export const getToken = (): TokenResponse | null => {
   const json = localStorage.getItem(tokenKey);
   if (!json) return null;
