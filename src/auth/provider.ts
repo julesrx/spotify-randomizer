@@ -5,6 +5,10 @@ import { getProfile } from '../spotify';
 
 class AuthProvider {
   public profile: null | UserProfile = null;
+ 
+  get isAuthenticated() {
+    return !!this.profile;
+  }
 
   async signin(code: string) {
     const token = await fetchToken(code);
