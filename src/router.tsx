@@ -2,16 +2,16 @@ import { createBrowserRouter } from 'react-router-dom';
 import { callbackLoader, callbackUri } from './auth';
 import Layout from './Layout';
 import provider from './auth/provider';
+import Queue from './routes/Queue';
 
 const router = createBrowserRouter([
   {
     path: '/',
     loader: async () => {
+      if (!provider.isAuthenticated) return null;
+
       try {
         await provider.load();
-
-        console.log('layout loader');
-
         return provider.profile;
       } catch {
         return null;
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <p>this is home</p> },
-      { path: 'about', element: <p>this is about</p> }
+      { path: 'queue', element: <Queue /> }
     ]
   },
   { path: callbackUri, loader: callbackLoader, element: <></> }

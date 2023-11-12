@@ -21,7 +21,7 @@ export default function Nav() {
           <NavLink to="/">Home</NavLink>
         </li>
         <li>
-          <NavLink to="/about">About</NavLink>
+          <NavLink to="/queue">Current queue</NavLink>
         </li>
       </ul>
 

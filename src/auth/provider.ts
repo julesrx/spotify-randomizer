@@ -1,13 +1,14 @@
 import type { UserProfile } from '@spotify/web-api-ts-sdk';
 
-import { clearToken, fetchToken, setToken } from '.';
+import { clearToken, fetchToken, getToken, setToken } from '.';
 import { getProfile } from '../spotify';
 
 class AuthProvider {
   public profile: null | UserProfile = null;
- 
+
   get isAuthenticated() {
-    return !!this.profile;
+    // TODO: handle refresh token and expired here ?
+    return !!getToken();
   }
 
   async signin(code: string) {
@@ -21,13 +22,10 @@ class AuthProvider {
     if (this.profile) return;
 
     const profile = await getProfile();
-    console.log('Loaded user profile', profile);
-
     this.profile = profile;
   }
 
   async signout() {
-    // TODO: clear token
     clearToken();
     this.profile = null;
   }
