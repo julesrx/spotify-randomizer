@@ -21,6 +21,10 @@ export default function Nav() {
           <NavLink to="/">Home</NavLink>
         </li>
         <li>
+          <NavLink to="/albums">Albums</NavLink>
+        </li>
+
+        <li>
           <NavLink to="/queue">Current queue</NavLink>
         </li>
       </ul>

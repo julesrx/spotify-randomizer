@@ -16,7 +16,9 @@ function QueueItem({
 }
 
 export default function Queue() {
-  const { data } = useSWR('queue', () => getUsersQueue(), { refreshInterval: 30000 });
+  const { data, isLoading } = useSWR('queue', () => getUsersQueue(), { refreshInterval: 30000 });
+
+  if (isLoading) return <p>Loading...</p>;
 
   const current = data!.currently_playing as Track;
   const queue = data!.queue as Track[];

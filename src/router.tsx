@@ -3,6 +3,7 @@ import { callbackLoader, callbackUri } from './auth';
 import Layout from './Layout';
 import provider from './auth/provider';
 import Queue from './routes/Queue';
+import Albums from './routes/Albums';
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,8 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <p>this is home</p> },
-      { path: 'queue', element: <Queue /> }
+      { path: 'queue', element: <Queue /> },
+      { path: 'albums', element: <Albums /> }
     ]
   },
   { path: callbackUri, loader: callbackLoader, element: <></> }
