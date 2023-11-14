@@ -18,5 +18,6 @@ export const shuffle = <T>(arr: T[]) => {
   return arr;
 };
 
-export const getRandomElementInArray = <T>(arr: T[]) =>
-  arr[Math.floor(Math.random() * arr.length)];
+export const getRandomElementInArray = <T>(arr: T[]) => {
+  return arr[Math.floor(Math.random() * arr.length)];
+};
