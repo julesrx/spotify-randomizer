@@ -26,7 +26,7 @@ export default function PlaybackState() {
   // const progress = Math.round((data.progress_ms * 100) / data.item.duration_ms);
 
   return (
-    <div className="fixed bottom-0 w-full flex justify-between items-center bg-spotify-black text-white p-2">
+    <footer className="fixed bottom-0 w-full flex justify-between items-center bg-spotify-black text-white p-2">
       <div className="flex space-x-2">
         <img src={cover} className="w-16 h-16" />
         <div className="flex flex-col justify-center">
@@ -38,6 +38,6 @@ export default function PlaybackState() {
       </div>
 
       <div className="text-spotify-green">Listening on {data.device.name}</div>
-    </div>
+    </footer>
   );
 }

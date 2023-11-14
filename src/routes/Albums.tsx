@@ -3,7 +3,7 @@ import type { SavedAlbum } from "@spotify/web-api-ts-sdk";
 
 import { getUsersSavedAlbums } from "../spotify";
 import AlbumsList from "../components/AlbumsList";
-import { AlbumsContext } from "../contexts";
+import { AlbumsContext } from "../context";
 import { shuffle } from "../utils";
 
 // const cacheKey = "albums-cache";

@@ -1,5 +1,6 @@
 import { ofetch } from "ofetch";
 import type {
+  Devices,
   Page,
   PlaybackState,
   Queue,
@@ -49,4 +50,8 @@ export const addItemToPlaybackQueue = async (
     method: "POST",
     params: { uri, device_id: deviceId },
   });
+};
+
+export const getAvailableDevices = async () => {
+  return await api<Devices>("me/player/devices");
 };

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import type { Track } from "@spotify/web-api-ts-sdk";
 
-import { AlbumsContext } from "../contexts";
+import { AlbumsContext } from "../context";
 import { getRandomElementInArray } from "../utils";
 import cache from "../utils/cache";
 import { addItemToPlaybackQueue, getAlbumTracks } from "../spotify";
