@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import type { UserProfile } from "@spotify/web-api-ts-sdk";
 import {
   NavLink,
@@ -9,15 +10,23 @@ import {
 import auth from "~/auth/provider";
 import Devices from "components/Devices";
 
-export default function Nav() {
-  const profile = useLoaderData() as UserProfile;
+const useRevalidate = () => {
   const navigate = useNavigate();
   const revalidator = useRevalidator();
 
-  const logout = async () => {
-    await auth.signout();
+  return useCallback(() => {
     navigate("/", { replace: true });
     revalidator.revalidate();
+  }, [navigate, revalidator]);
+};
+
+export default function Nav() {
+  const profile = useLoaderData() as UserProfile;
+  const revalidate = useRevalidate();
+
+  const logout = async () => {
+    await auth.signout();
+    revalidate();
   };
 
   const avatar = profile.images.sort((a, b) => a.height - b.height)[0].url;
