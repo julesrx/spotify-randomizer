@@ -1,10 +1,10 @@
-import { useContext, useState } from "react";
-import type { Track } from "@spotify/web-api-ts-sdk";
+import { useContext, useState } from 'react';
+import type { Track } from '@spotify/web-api-ts-sdk';
 
-import { AlbumsContext } from "~/context";
-import { addItemToPlaybackQueue, getAlbumTracks } from "~/spotify";
-import { getRandomElementInArray } from "~/utils";
-import cache from "~/utils/cache";
+import { AlbumsContext } from '~/context';
+import { addItemToPlaybackQueue, getAlbumTracks } from '~/spotify';
+import { getRandomElementInArray } from '~/utils';
+import cache from '~/utils/cache';
 
 interface Album {
   id: string;
@@ -48,25 +48,34 @@ function AlbumToolbar({ album }: { album: Album }) {
   );
 }
 
-function AlbumItem({
-  album,
-  isSelected,
-}: {
-  album: Album;
-  isSelected: boolean;
-}) {
+function AlbumItem({ album, isSelected }: { album: Album; isSelected: boolean }) {
   return (
     <div>
-      <img
-        src={album.cover}
-        alt={album.name}
-        className={isSelected ? "w-16 h-16" : "w-8 h-8"}
-      />
-
+      <img src={album.cover} alt={album.name} className={isSelected ? 'w-16 h-16' : 'w-8 h-8'} />
       {isSelected && <AlbumToolbar album={album} />}
     </div>
   );
 }
+
+const delay = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+const roll = async (cb: () => void) => {
+  for (let i = 0; i < 20; i++) {
+    await delay(100);
+    cb();
+  }
+
+  await delay(200);
+  cb();
+
+  await delay(300);
+  cb();
+
+  await delay(500);
+  cb();
+
+  await delay(500);
+  cb();
+};
 
 export default function AlbumsList() {
   const albums = useContext(AlbumsContext).map((a) => ({
@@ -80,9 +89,8 @@ export default function AlbumsList() {
 
   return (
     <>
-      <button onClick={() => setRandom(getRandomElementInArray(albums))}>
-        Randomize
-      </button>
+      <button onClick={() => setRandom(getRandomElementInArray(albums))}>Randomize</button>
+      <button onClick={() => roll(() => setRandom(getRandomElementInArray(albums)))}>Roll</button>
 
       <div className="relative">
         {albums.map((a) => {

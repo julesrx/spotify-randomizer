@@ -43,10 +43,7 @@ export const getAlbumTracks = async (id: string, limit = 50, offset = 0) => {
   });
 };
 
-export const addItemToPlaybackQueue = async (
-  uri: string,
-  deviceId?: string
-) => {
+export const addItemToPlaybackQueue = async (uri: string, deviceId?: string) => {
   await api('me/player/queue', {
     method: 'POST',
     params: { uri, device_id: deviceId },
@@ -61,12 +58,9 @@ export const getUserTopItems = async <T extends 'artists' | 'tracks'>(
   type: T,
   timeRange: 'long_term' | 'medium_term' | 'short_term',
   limit = 50,
-  offset = 0
+  offset = 0,
 ) => {
-  return await api<Page<T extends 'artists' ? Artist : Track>>(
-    `me/top/${type}`,
-    {
-      params: { time_range: timeRange, limit, offset },
-    }
-  );
+  return await api<Page<T extends 'artists' ? Artist : Track>>(`me/top/${type}`, {
+    params: { time_range: timeRange, limit, offset },
+  });
 };

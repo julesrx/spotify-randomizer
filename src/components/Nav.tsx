@@ -43,7 +43,7 @@ export default function Nav() {
     <nav className="flex p-2 justify-between">
       <ul>
         <NavItem to="/" text="Home" />
-        <NavItem to="/Albums" text="Albums" />
+        <NavItem to="/albums" text="Albums" />
         <NavItem to="/queue" text="Current queue" />
         <NavItem to="/tops" text="Top tracks and artists" />
       </ul>

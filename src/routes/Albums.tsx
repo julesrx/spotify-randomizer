@@ -1,10 +1,10 @@
-import useSWR from "swr";
-import type { SavedAlbum } from "@spotify/web-api-ts-sdk";
+import useSWR from 'swr';
+import type { SavedAlbum } from '@spotify/web-api-ts-sdk';
 
-import { getUserSavedAlbums } from "~/spotify";
-import AlbumsList from "components/AlbumsList";
-import { AlbumsContext } from "~/context";
-import { shuffle } from "~/utils";
+import AlbumsList from 'components/AlbumsList';
+import { getUserSavedAlbums } from '~/spotify';
+import { AlbumsContext } from '~/context';
+import { shuffle } from '~/utils';
 
 // const cacheKey = "albums-cache";
 
@@ -33,7 +33,7 @@ const loadAlbumLibrary = async (): Promise<SavedAlbum[]> => {
 };
 
 export default function Albums() {
-  const { data, isLoading } = useSWR("albums", () => loadAlbumLibrary(), {
+  const { data, isLoading } = useSWR('albums', () => loadAlbumLibrary(), {
     revalidateOnFocus: false,
     // revalidateOnMount: false,
   });
@@ -42,10 +42,8 @@ export default function Albums() {
   if (!data?.length) return <p>You don't have any saved albums</p>;
 
   return (
-    <>
-      <AlbumsContext.Provider value={shuffle(data)}>
-        <AlbumsList />
-      </AlbumsContext.Provider>
-    </>
+    <AlbumsContext.Provider value={shuffle(data)}>
+      <AlbumsList />
+    </AlbumsContext.Provider>
   );
 }
