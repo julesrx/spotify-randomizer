@@ -1,16 +1,25 @@
-import { useEffect, useState } from "react";
-import useSWR from "swr";
-import type { Track } from "@spotify/web-api-ts-sdk";
+import { useEffect, useState } from 'react';
+import useSWR from 'swr';
+import type { Track } from '@spotify/web-api-ts-sdk';
 
-import { getPlaybackState } from "~/spotify";
+import { getPlaybackState } from '~/spotify';
+
+const formatDuration = (ms: number) => {
+  const seconds = Math.abs(ms / 1000);
+
+  const m = Math.trunc(seconds / 60).toString();
+  const s = Math.trunc(seconds % 60)
+    .toString()
+    .padStart(2, '0');
+
+  return `${m}:${s}`;
+};
 
 export default function PlaybackState() {
   const [refreshInterval, setRefreshInterval] = useState(5000);
-  const { data, error, isLoading } = useSWR(
-    "playback-state",
-    () => getPlaybackState(),
-    { refreshInterval }
-  );
+  const { data, error, isLoading } = useSWR('playback-state', () => getPlaybackState(), {
+    refreshInterval,
+  });
 
   const isPlaying = !error && data?.is_playing;
   useEffect(() => setRefreshInterval(isPlaying ? 5000 : 10000), [isPlaying]);
@@ -22,16 +31,15 @@ export default function PlaybackState() {
   const artist = track.artists[0].name;
   const cover = track.album.images.sort((a, b) => a.height - b.height)[0].url;
 
-  // TODO: Intl.DurationFormat
-  // const progress = Math.round((data.progress_ms * 100) / data.item.duration_ms);
-
   return (
     <footer className="fixed bottom-0 w-full flex justify-between items-center bg-spotify-black text-white p-2">
       <div className="flex space-x-2">
         <img src={cover} className="w-16 h-16" />
         <div className="flex flex-col justify-center">
           <span>
-            <b>{track.name}</b>
+            <b>
+              {track.name} - {formatDuration(data.progress_ms)}/{formatDuration(track.duration_ms)}
+            </b>
           </span>
           <span className="text-sm">{artist}</span>
         </div>

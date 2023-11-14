@@ -1,6 +1,5 @@
 import { safeDestr } from "destr";
 
-// TODO: handle expiration
 const key = (id: string) => `cache:${id}`;
 
 const get = <T>(id: string): T | null => {
