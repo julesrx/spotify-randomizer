@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import type { SavedAlbum } from "@spotify/web-api-ts-sdk";
 
-import { getUsersSavedAlbums } from "~/spotify";
+import { getUserSavedAlbums } from "~/spotify";
 import AlbumsList from "components/AlbumsList";
 import { AlbumsContext } from "~/context";
 import { shuffle } from "~/utils";
@@ -9,7 +9,7 @@ import { shuffle } from "~/utils";
 // const cacheKey = "albums-cache";
 
 const loadAlbumLibrary = async (): Promise<SavedAlbum[]> => {
-  const r = await getUsersSavedAlbums();
+  const r = await getUserSavedAlbums();
   return r.items;
 
   // const cache = localStorage.getItem(cacheKey);

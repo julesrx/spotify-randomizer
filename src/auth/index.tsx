@@ -1,22 +1,22 @@
-import { ofetch } from "ofetch";
+import { ofetch } from 'ofetch';
 import {
   redirect,
   type LoaderFunctionArgs,
   RouteObject,
   LoaderFunction,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import { generateCodeChallenge, generateCodeVerifier } from "./utils";
-import auth from "./provider";
+import { generateCodeChallenge, generateCodeVerifier } from './utils';
+import auth from './provider';
 
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-const baseUrl = "https://accounts.spotify.com";
-const callbackUri = "/callback";
+const baseUrl = 'https://accounts.spotify.com';
+const callbackUri = '/callback';
 const redirectUri = `${location.origin}${callbackUri}`;
 
 // ----
-const verifierKey = "auth:verifier";
-const returnPathnameKey = "auth:returnPathname";
+const verifierKey = 'auth:verifier';
+const returnPathnameKey = 'auth:returnPathname';
 export async function redirectToAuthCodeFlow(returnPathname: string) {
   const verifier = generateCodeVerifier(128);
   const challenge = await generateCodeChallenge(verifier);
@@ -25,15 +25,15 @@ export async function redirectToAuthCodeFlow(returnPathname: string) {
   localStorage.setItem(returnPathnameKey, returnPathname);
 
   const params = new URLSearchParams();
-  params.append("client_id", clientId);
-  params.append("response_type", "code");
-  params.append("redirect_uri", redirectUri);
+  params.append('client_id', clientId);
+  params.append('response_type', 'code');
+  params.append('redirect_uri', redirectUri);
   params.append(
-    "scope",
-    "user-read-private user-read-email user-library-read user-read-playback-state user-modify-playback-state"
+    'scope',
+    'user-read-private user-read-email user-library-read user-read-playback-state user-modify-playback-state user-top-read'
   );
-  params.append("code_challenge_method", "S256");
-  params.append("code_challenge", challenge);
+  params.append('code_challenge_method', 'S256');
+  params.append('code_challenge', challenge);
 
   document.location = `${baseUrl}/authorize?${params.toString()}`;
 }
@@ -42,15 +42,15 @@ export async function fetchToken(code: string): Promise<TokenResponse> {
   const verifier = localStorage.getItem(verifierKey);
 
   const params = new URLSearchParams();
-  params.append("client_id", clientId);
-  params.append("grant_type", "authorization_code");
-  params.append("code", code);
-  params.append("redirect_uri", redirectUri);
-  params.append("code_verifier", verifier!);
+  params.append('client_id', clientId);
+  params.append('grant_type', 'authorization_code');
+  params.append('code', code);
+  params.append('redirect_uri', redirectUri);
+  params.append('code_verifier', verifier!);
 
   const token = await ofetch<TokenResponse>(`${baseUrl}/api/token`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: params,
   });
 
@@ -60,7 +60,7 @@ export async function fetchToken(code: string): Promise<TokenResponse> {
 }
 
 // ----
-const tokenKey = "auth:token";
+const tokenKey = 'auth:token';
 
 export const setToken = (response: TokenResponse) => {
   localStorage.setItem(tokenKey, JSON.stringify(response));
@@ -93,14 +93,14 @@ export const callbackRoute: RouteObject = {
   path: callbackUri,
   loader: async ({ request }: LoaderFunctionArgs) => {
     const url = new URL(request.url);
-    const code = url.searchParams.get("code");
+    const code = url.searchParams.get('code');
     if (!code)
       throw new Response("Couldn't get authorization code", { status: 400 });
 
     await auth.signin(code);
 
     const returnPathname = localStorage.getItem(returnPathnameKey);
-    return redirect(returnPathname ?? "/");
+    return redirect(returnPathname ?? '/');
   },
   element: <></>,
 };
