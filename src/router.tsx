@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { callbackLoader, callbackUri } from "./auth";
-import provider from "./auth/provider";
-import Queue from "./routes/Queue";
-import Albums from "./routes/Albums";
-import App from "./App";
+import { callbackLoader, callbackUri } from "~/auth";
+import provider from "~/auth/provider";
+import Queue from "routes/Queue";
+import Albums from "routes/Albums";
+import App from "~/App";
 
 const router = createBrowserRouter([
   {

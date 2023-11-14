@@ -1,5 +1,10 @@
 import type { UserProfile } from "@spotify/web-api-ts-sdk";
-import { NavLink, useLoaderData, useNavigate } from "react-router-dom";
+import {
+  NavLink,
+  useLoaderData,
+  useNavigate,
+  useRevalidator,
+} from "react-router-dom";
 
 import auth from "~/auth/provider";
 import Devices from "components/Devices";
@@ -7,10 +12,12 @@ import Devices from "components/Devices";
 export default function Nav() {
   const profile = useLoaderData() as UserProfile;
   const navigate = useNavigate();
+  const revalidator = useRevalidator();
 
   const logout = async () => {
     await auth.signout();
     navigate("/", { replace: true });
+    revalidator.revalidate();
   };
 
   const avatar = profile.images.sort((a, b) => a.height - b.height)[0].url;
