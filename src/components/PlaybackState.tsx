@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 import type { Track } from "@spotify/web-api-ts-sdk";
 
-import { getPlaybackState } from "../spotify";
+import { getPlaybackState } from "~/spotify";
 
 export default function PlaybackState() {
   const [refreshInterval, setRefreshInterval] = useState(5000);

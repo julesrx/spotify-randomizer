@@ -1,8 +1,8 @@
 import type { UserProfile } from "@spotify/web-api-ts-sdk";
 import { NavLink, useLoaderData, useNavigate } from "react-router-dom";
 
-import auth from "../auth/provider";
-import Devices from "./Devices";
+import auth from "~/auth/provider";
+import Devices from "components/Devices";
 
 export default function Nav() {
   const profile = useLoaderData() as UserProfile;

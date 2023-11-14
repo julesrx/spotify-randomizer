@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import type { Track } from '@spotify/web-api-ts-sdk';
 
-import { getUsersQueue } from '../spotify';
+import { getUsersQueue } from '~/spotify';
 
 function QueueItem({
   index,

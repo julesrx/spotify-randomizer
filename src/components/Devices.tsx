@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { DevicesContext } from "../context";
+import { DevicesContext } from "~/context";
 
 export default function Devices() {
   const devices = useContext(DevicesContext);

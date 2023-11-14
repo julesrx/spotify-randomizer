@@ -1,9 +1,9 @@
 import { UserProfile } from "@spotify/web-api-ts-sdk";
 import { useLoaderData } from "react-router-dom";
 
-import { redirectToAuthCodeFlow } from "./auth";
-import icon from "./assets/spotify-icon-white.png";
-import Layout from "./Layout";
+import { redirectToAuthCodeFlow } from "~/auth";
+import icon from "~/assets/spotify-icon-white.png";
+import Layout from "~/Layout";
 
 function LoginScreen() {
   return (

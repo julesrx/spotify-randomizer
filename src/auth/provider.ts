@@ -1,7 +1,7 @@
 import type { UserProfile } from '@spotify/web-api-ts-sdk';
 
 import { clearToken, fetchToken, getToken, setToken } from '.';
-import { getProfile } from '../spotify';
+import { getProfile } from '~/spotify';
 
 class AuthProvider {
   public profile: null | UserProfile = null;

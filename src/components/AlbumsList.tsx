@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
 import type { Track } from "@spotify/web-api-ts-sdk";
 
-import { AlbumsContext } from "../context";
-import { getRandomElementInArray } from "../utils";
-import cache from "../utils/cache";
-import { addItemToPlaybackQueue, getAlbumTracks } from "../spotify";
+import { AlbumsContext } from "~/context";
+import { addItemToPlaybackQueue, getAlbumTracks } from "~/spotify";
+import { getRandomElementInArray } from "~/utils";
+import cache from "~/utils/cache";
 
 interface Album {
   id: string;
