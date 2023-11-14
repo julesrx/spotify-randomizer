@@ -9,10 +9,7 @@ export const shuffle = <T>(arr: T[]) => {
     currentIndex--;
 
     // And swap it with the current element.
-    [arr[currentIndex], arr[randomIndex]] = [
-      arr[randomIndex],
-      arr[currentIndex],
-    ];
+    [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
   }
 
   return arr;
@@ -20,4 +17,9 @@ export const shuffle = <T>(arr: T[]) => {
 
 export const getRandomElementInArray = <T>(arr: T[]) => {
   return arr[Math.floor(Math.random() * arr.length)];
+};
+
+export const addSeconds = (date: Date, seconds: number): Date => {
+  date.setSeconds(date.getSeconds() + seconds);
+  return date;
 };

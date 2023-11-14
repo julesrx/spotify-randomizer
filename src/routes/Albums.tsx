@@ -6,30 +6,9 @@ import { getUserSavedAlbums } from '~/spotify';
 import { AlbumsContext } from '~/context';
 import { shuffle } from '~/utils';
 
-// const cacheKey = "albums-cache";
-
 const loadAlbumLibrary = async (): Promise<SavedAlbum[]> => {
   const r = await getUserSavedAlbums();
   return r.items;
-
-  // const cache = localStorage.getItem(cacheKey);
-  // if (cache) return JSON.parse(cache);
-
-  // const limit = 50;
-  // let offset = 0;
-  // let res: SavedAlbum[] = [];
-
-  // for (;;) {
-  //   const r = await getUsersSavedAlbums(limit, offset);
-  //   if (!r.next) break;
-
-  //   res = [...res, ...r.items];
-  //   offset += limit;
-  // }
-
-  // localStorage.setItem(cacheKey, JSON.stringify(res));
-
-  // return res;
 };
 
 export default function Albums() {

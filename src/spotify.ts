@@ -14,8 +14,8 @@ import { getToken } from '~/auth';
 
 const api = ofetch.create({
   baseURL: 'https://api.spotify.com/v1',
-  onRequest: ({ options }) => {
-    const token = getToken();
+  onRequest: async ({ options }) => {
+    const token = await getToken();
     if (!token) return;
 
     options.headers = new Headers(options.headers);
