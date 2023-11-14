@@ -1,45 +1,51 @@
-import useSWR from 'swr';
-import type { SavedAlbum } from '@spotify/web-api-ts-sdk';
+import useSWR from "swr";
+import type { SavedAlbum } from "@spotify/web-api-ts-sdk";
 
-import { getUsersSavedAlbums } from '../spotify';
+import { getUsersSavedAlbums } from "../spotify";
+import AlbumsList from "../components/AlbumsList";
+import { AlbumsContext } from "../contexts";
+import { shuffle } from "../utils";
 
-const loadAlbumLibrary = async () => {
-  const limit = 50;
-  let offset = 0;
-  let res: SavedAlbum[] = [];
+// const cacheKey = "albums-cache";
 
-  for (;;) {
-    const r = await getUsersSavedAlbums(limit, offset);
-    if (!r.next) break;
+const loadAlbumLibrary = async (): Promise<SavedAlbum[]> => {
+  const r = await getUsersSavedAlbums();
+  return r.items;
 
-    res = [...res, ...r.items];
-    offset += limit;
-  }
+  // const cache = localStorage.getItem(cacheKey);
+  // if (cache) return JSON.parse(cache);
 
-  return res;
+  // const limit = 50;
+  // let offset = 0;
+  // let res: SavedAlbum[] = [];
+
+  // for (;;) {
+  //   const r = await getUsersSavedAlbums(limit, offset);
+  //   if (!r.next) break;
+
+  //   res = [...res, ...r.items];
+  //   offset += limit;
+  // }
+
+  // localStorage.setItem(cacheKey, JSON.stringify(res));
+
+  // return res;
 };
 
 export default function Albums() {
-  const { data, isLoading } = useSWR('albums', () => loadAlbumLibrary(), {
-    revalidateOnFocus: false
+  const { data, isLoading } = useSWR("albums", () => loadAlbumLibrary(), {
+    revalidateOnFocus: false,
+    // revalidateOnMount: false,
   });
-  
-  if (isLoading) return <p>Loading...</p>;
 
-  const list = data!.map(a => ({
-    id: a.album.id,
-    name: a.album.name,
-    cover: a.album.images[0].url
-  }));
+  if (isLoading) return <p>Loading...</p>;
+  if (!data?.length) return <p>You don't have any saved albums</p>;
 
   return (
-    <ul>
-      {list.map(a => (
-        <li key={a.id}>
-          <img src={a.cover} className="w-8 h-8" />
-          {a.name}
-        </li>
-      ))}
-    </ul>
+    <>
+      <AlbumsContext.Provider value={shuffle(data)}>
+        <AlbumsList />
+      </AlbumsContext.Provider>
+    </>
   );
 }

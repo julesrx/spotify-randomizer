@@ -1,14 +1,22 @@
-import useSWR from 'swr';
-import type { Track } from '@spotify/web-api-ts-sdk';
+import { useEffect, useState } from "react";
+import useSWR from "swr";
+import type { Track } from "@spotify/web-api-ts-sdk";
 
-import { getPlaybackState } from '../spotify';
+import { getPlaybackState } from "../spotify";
 
 export default function PlaybackState() {
-  const { data, error, isLoading } = useSWR('playback-state', () => getPlaybackState(), {
-    refreshInterval: 5000
-  });
+  const [refreshInterval, setRefreshInterval] = useState(5000);
+  const { data, error, isLoading } = useSWR(
+    "playback-state",
+    () => getPlaybackState(),
+    { refreshInterval }
+  );
 
-  if (error || isLoading || !data?.is_playing) return <></>;
+  const isPlaying = !error && data?.is_playing;
+  useEffect(() => setRefreshInterval(isPlaying ? 5000 : 10000), [isPlaying]);
+
+  if (isLoading) return <></>;
+  if (!isPlaying) return <></>;
 
   const track = data.item as Track;
   const artist = track.artists[0].name;
