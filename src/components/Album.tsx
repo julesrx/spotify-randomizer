@@ -2,12 +2,13 @@ import type { SavedAlbum, Track } from '@spotify/web-api-ts-sdk';
 import useSWR from 'swr';
 import { Link } from 'react-router-dom';
 import { createDurationFormatter, createTimeAgoFormatter } from '@julesrx/utils';
-import type { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { ArrowPathIcon, QueueListIcon } from '@heroicons/react/24/outline';
 
 import { addItemToPlaybackQueue, getAlbumTracks } from '~/spotify';
 import cache from '~/utils/cache';
 import { locale } from '~/utils';
+import { useDeviceContext } from '~/context';
 
 const getFullAlbumTracks = async (id: string) => {
   return await cache.gset(`album:${id}:tracks`, async () => {
@@ -57,6 +58,8 @@ export default function Album({
   album: SavedAlbum;
   onRandomize: () => void;
 }) {
+  const { hasActiveDevice } = useDeviceContext();
+
   const id = album.album.id;
   const url = album.album.external_urls.spotify;
   const name = album.album.name;
@@ -73,11 +76,12 @@ export default function Album({
 
   const addToQueue = async () => {
     if (!tracks) return;
+    if (!hasActiveDevice) return;
+
     for (const track of tracks) {
       await addItemToPlaybackQueue(track.uri);
     }
   };
-  // TODO: link rel opener album and
 
   return (
     <div className="flex space-x-4">
@@ -101,8 +105,13 @@ export default function Album({
 
           <div className="flex space-x-1 opacity-70 text-sm">
             <span>{totalTracks} songs</span>
-            <Point />
-            {!isLoading && tracks && <span>{getAlbumDuration(tracks)}</span>}
+
+            {!isLoading && tracks && (
+              <>
+                <Point />
+                <span>{getAlbumDuration(tracks)}</span>
+              </>
+            )}
           </div>
 
           <div className="flex space-x-1 opacity-70 text-sm">
@@ -111,7 +120,13 @@ export default function Album({
         </div>
 
         <div className="flex space-x-2">
-          <button type="button" onClick={() => addToQueue()} title="Add to queue">
+          <button
+            type="button"
+            onClick={() => addToQueue()}
+            title={hasActiveDevice ? 'Add to queue' : 'A device needs to be active to add to queue'}
+            disabled={!hasActiveDevice}
+            className="disabled:opacity-50"
+          >
             <QueueListIcon className="h-6 w-6" />
           </button>
 
