@@ -2,7 +2,7 @@ import type { SavedAlbum, Track } from '@spotify/web-api-ts-sdk';
 import useSWR from 'swr';
 import { Link } from 'react-router-dom';
 import { createDurationFormatter, createTimeAgoFormatter } from '@julesrx/utils';
-import { type ReactNode } from 'react';
+import { useState, type ReactNode, useEffect } from 'react';
 import { ArrowPathIcon, QueueListIcon } from '@heroicons/react/24/outline';
 
 import { addItemToPlaybackQueue, getAlbumTracks } from '~/spotify';
@@ -60,6 +60,9 @@ export default function Album({
 }) {
   const { hasActiveDevice } = useDeviceContext();
 
+  const [activeAddToQueue, setActiveAddToQueue] = useState(hasActiveDevice);
+  useEffect(() => setActiveAddToQueue(hasActiveDevice), [hasActiveDevice]);
+
   const id = album.album.id;
   const url = album.album.external_urls.spotify;
   const name = album.album.name;
@@ -78,13 +81,17 @@ export default function Album({
     if (!tracks) return;
     if (!hasActiveDevice) return;
 
+    setActiveAddToQueue(false);
+
     for (const track of tracks) {
       await addItemToPlaybackQueue(track.uri);
     }
+
+    setActiveAddToQueue(true);
   };
 
   return (
-    <div className="flex space-x-4">
+    <div className="flex space-x-4 md:ml-16">
       <ExternalLink to={url}>
         <img src={cover} alt={name} className={'w-80 h-80'} />
       </ExternalLink>
@@ -124,7 +131,7 @@ export default function Album({
             type="button"
             onClick={() => addToQueue()}
             title={hasActiveDevice ? 'Add to queue' : 'A device needs to be active to add to queue'}
-            disabled={!hasActiveDevice}
+            disabled={!activeAddToQueue}
             className="disabled:opacity-50"
           >
             <QueueListIcon className="h-6 w-6" />
