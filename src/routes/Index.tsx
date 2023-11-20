@@ -4,11 +4,11 @@ import type { SavedAlbum } from '@spotify/web-api-ts-sdk';
 import { getUserSavedAlbums } from '~/spotify';
 import { AlbumsContext } from '~/context';
 import AlbumRandomizer from '~/components/AlbumRandomizer';
-import cache from '~/utils/cache';
+// import cache from '~/utils/cache';
 
 const loadAlbumLibrary = async (): Promise<SavedAlbum[]> => {
   // TODO: set short cache expiration
-  return await cache.gset('user:albums', async () => {
+  // return await cache.gset('user:albums', async () => {
     const limit = 50;
     let offset = 0;
     let res: SavedAlbum[] = [];
@@ -22,7 +22,7 @@ const loadAlbumLibrary = async (): Promise<SavedAlbum[]> => {
     }
 
     return res;
-  });
+  // });
 };
 
 export default function Index() {

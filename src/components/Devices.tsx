@@ -1,23 +1,20 @@
-import { useContext } from "react";
+import { useContext } from 'react';
+import { DevicePhoneMobileIcon } from '@heroicons/react/24/outline';
 
-import { DevicesContext } from "~/context";
+import { DevicesContext } from '~/context';
 
 export default function Devices() {
   const devices = useContext(DevicesContext);
-  if (!devices.devices.length)
-    return (
-      <ul>
-        <li>Not devices in use...</li>
-      </ul>
-    );
+  const current = devices.devices.find((d) => d.is_active);
+  const isActive = !!current;
 
   return (
-    <ul>
-      {devices.devices.map((d) => (
-        <li key={d.id}>
-          {d.name} ({d.type})
-        </li>
-      ))}
-    </ul>
+    <button
+      type="button"
+      title={current ? current?.name : 'Not devices in use...'}
+      className={'w-12 h-12 p-2 rounded-full ' + (isActive ? 'text-spotify-green' : '')}
+    >
+      <DevicePhoneMobileIcon />
+    </button>
   );
 }
