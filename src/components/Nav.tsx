@@ -27,7 +27,7 @@ export default function Nav() {
   const avatar = profile.images.sort((a, b) => a.height - b.height)[0].url;
 
   return (
-    <nav>
+    <nav className="fixed top-0 w-screen flex justify-end">
       <Devices />
 
       <img src={avatar} className="w-16 h-16" />

@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 
 import { AlbumsContext } from '~/context';
 import { getRandomElementInArray } from '~/utils';
+import Album from './Album';
 
 export default function AlbumRandomizer() {
   const albums = useContext(AlbumsContext);
@@ -9,22 +10,14 @@ export default function AlbumRandomizer() {
 
   const randomize = () => setRandom(getRandomElementInArray(albums));
 
-  const album = {
-    id: random.album.id,
-    uri: random.album.uri,
-    name: random.album.name,
-    cover: random.album.images[0].url,
-  };
-
   return (
-    <div>
+    <div className="h-full flex justify-center items-center">
       <div>
-        <img src={album.cover} alt={album.name} className={'w-8 h-8'} />
+        <Album album={random} />
+        <button type="button" onClick={() => randomize()}>
+          Randomize
+        </button>
       </div>
-
-      <button type="button" onClick={() => randomize()}>
-        Randomize
-      </button>
     </div>
   );
 }

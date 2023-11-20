@@ -13,10 +13,9 @@ export default function Layout() {
   return (
     <DevicesContext.Provider value={data ?? { devices: [] }}>
       <Nav />
-      <main>
+      <main className="h-screen">
         <Outlet />
       </main>
-      {/* <PlaybackState /> */}
     </DevicesContext.Provider>
   );
 }

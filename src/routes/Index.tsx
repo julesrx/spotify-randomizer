@@ -4,27 +4,30 @@ import type { SavedAlbum } from '@spotify/web-api-ts-sdk';
 import { getUserSavedAlbums } from '~/spotify';
 import { AlbumsContext } from '~/context';
 import AlbumRandomizer from '~/components/AlbumRandomizer';
+import cache from '~/utils/cache';
 
 const loadAlbumLibrary = async (): Promise<SavedAlbum[]> => {
-  const limit = 50;
-  let offset = 0;
-  let res: SavedAlbum[] = [];
+  // TODO: set short cache expiration
+  return await cache.gset('user:albums', async () => {
+    const limit = 50;
+    let offset = 0;
+    let res: SavedAlbum[] = [];
 
-  for (;;) {
-    const r = await getUserSavedAlbums(limit, offset);
-    res = [...res, ...r.items];
+    for (;;) {
+      const r = await getUserSavedAlbums(limit, offset);
+      res = [...res, ...r.items];
 
-    if (!r.next) break;
-    offset += limit;
-  }
+      if (!r.next) break;
+      offset += limit;
+    }
 
-  return res;
+    return res;
+  });
 };
 
 export default function Index() {
   const { data, isLoading } = useSWR('albums', () => loadAlbumLibrary(), {
     revalidateOnFocus: false,
-    // revalidateOnMount: false,
   });
 
   if (isLoading) return <p>Loading...</p>;
