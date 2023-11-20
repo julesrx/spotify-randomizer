@@ -3,8 +3,9 @@ import useSWR from 'swr';
 import { Link } from 'react-router-dom';
 import { createDurationFormatter, createTimeAgoFormatter } from '@julesrx/utils';
 import type { ReactNode } from 'react';
+import { ArrowPathIcon, QueueListIcon } from '@heroicons/react/24/outline';
 
-import { getAlbumTracks } from '~/spotify';
+import { addItemToPlaybackQueue, getAlbumTracks } from '~/spotify';
 import cache from '~/utils/cache';
 import { locale } from '~/utils';
 
@@ -49,7 +50,13 @@ function ExternalLink({ children, to }: { children: ReactNode; to: string }) {
   );
 }
 
-export default function Album({ album }: { album: SavedAlbum }) {
+export default function Album({
+  album,
+  onRandomize,
+}: {
+  album: SavedAlbum;
+  onRandomize: () => void;
+}) {
   const id = album.album.id;
   const url = album.album.external_urls.spotify;
   const name = album.album.name;
@@ -64,6 +71,12 @@ export default function Album({ album }: { album: SavedAlbum }) {
 
   const { data: tracks, isLoading } = useSWR(`album:${id}:tracks`, () => getFullAlbumTracks(id));
 
+  const addToQueue = async () => {
+    if (!tracks) return;
+    for (const track of tracks) {
+      await addItemToPlaybackQueue(track.uri);
+    }
+  };
   // TODO: link rel opener album and
 
   return (
@@ -72,27 +85,39 @@ export default function Album({ album }: { album: SavedAlbum }) {
         <img src={cover} alt={name} className={'w-80 h-80'} />
       </ExternalLink>
 
-      <div className="w-[32rem]">
-        <h2 className="text-3xl font-bold">
-          <ExternalLink to={url}>{name}</ExternalLink>
-        </h2>
+      <div className="w-[32rem] flex flex-col justify-between">
+        <div>
+          <h2 className="text-3xl font-bold">
+            <ExternalLink to={url}>{name}</ExternalLink>
+          </h2>
 
-        <div className="flex space-x-1">
-          <h3 className="font-bold">
-            <ExternalLink to={artist.external_urls.spotify}>{artist.name}</ExternalLink>
-          </h3>
-          <Point />
-          <div>{year}</div>
+          <div className="flex space-x-1">
+            <h3 className="font-bold">
+              <ExternalLink to={artist.external_urls.spotify}>{artist.name}</ExternalLink>
+            </h3>
+            <Point />
+            <div>{year}</div>
+          </div>
+
+          <div className="flex space-x-1 opacity-70 text-sm">
+            <span>{totalTracks} songs</span>
+            <Point />
+            {!isLoading && tracks && <span>{getAlbumDuration(tracks)}</span>}
+          </div>
+
+          <div className="flex space-x-1 opacity-70 text-sm">
+            <span title={addedAtFormatted}>Added {addedAgo}</span>
+          </div>
         </div>
 
-        <div className="flex space-x-1 opacity-70 text-sm">
-          <span>{totalTracks} songs</span>
-          <Point />
-          {!isLoading && tracks && <span>{getAlbumDuration(tracks)}</span>}
-        </div>
+        <div className="flex space-x-2">
+          <button type="button" onClick={() => addToQueue()} title="Add to queue">
+            <QueueListIcon className="h-6 w-6" />
+          </button>
 
-        <div className="flex space-x-1 opacity-70 text-sm">
-          <span title={addedAtFormatted}>Added {addedAgo}</span>
+          <button type="button" onClick={onRandomize} title="Randomize">
+            <ArrowPathIcon className="h-6 w-6" />
+          </button>
         </div>
       </div>
     </div>

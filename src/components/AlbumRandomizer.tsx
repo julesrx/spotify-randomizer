@@ -12,12 +12,7 @@ export default function AlbumRandomizer() {
 
   return (
     <div className="h-full flex justify-center items-center">
-      <div>
-        <Album album={random} />
-        <button type="button" onClick={() => randomize()}>
-          Randomize
-        </button>
-      </div>
+      <Album album={random} onRandomize={() => randomize()} />
     </div>
   );
 }
