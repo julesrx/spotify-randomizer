@@ -21,11 +21,10 @@ const get = async <T>(id: string) => {
 };
 
 const set = async <T>(id: string, value: T, secondsExpiration?: number) => {
-  let expiration: number | undefined;
-  if (secondsExpiration) {
-    const now = Date.now();
-    expiration = now + secondsExpiration * 1000;
-  }
+  secondsExpiration = secondsExpiration ?? 60 * 30;
+
+  const now = Date.now();
+  const expiration = now + secondsExpiration * 1000;
 
   const item: CacheItem<T> = { value, expiration };
   await storage.setItem(id, item);
