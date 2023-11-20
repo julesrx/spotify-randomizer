@@ -1,3 +1,0 @@
-- lohout user if the scopes have changed
-- use spotify sdk ?
-- select current device ?

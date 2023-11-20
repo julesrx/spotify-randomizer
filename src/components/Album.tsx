@@ -5,8 +5,7 @@ import { useState, useEffect } from 'react';
 import { ArrowPathIcon, QueueListIcon } from '@heroicons/react/24/solid';
 
 import { addItemToPlaybackQueue, getAlbumTracks, getPaginated } from '~/spotify';
-import cache from '~/utils/cache';
-import { locale } from '~/utils';
+import { cache, locale } from '~/utils';
 import { useDeviceContext } from '~/context';
 import ExternalLink from './ExternalLink';
 

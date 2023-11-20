@@ -4,8 +4,8 @@ import type { SavedAlbum } from '@spotify/web-api-ts-sdk';
 import { getPaginated, getUserSavedAlbums } from '~/spotify';
 import { AlbumsContext } from '~/context';
 import AlbumRandomizer from '~/components/AlbumRandomizer';
-import cache from '~/utils/cache';
 import Loading from '~/components/Loading';
+import { cache } from '~/utils';
 
 const loadAlbumLibrary = async (): Promise<SavedAlbum[]> => {
   return await cache.gset(

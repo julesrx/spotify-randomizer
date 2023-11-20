@@ -1,4 +1,6 @@
-export const locale = 'en-US'
+import { createCacheStorage } from '@julesrx/utils';
+
+export const locale = 'en-US';
 
 export const shuffle = <T>(arr: T[]) => {
   let currentIndex = arr.length;
@@ -25,3 +27,5 @@ export const addSeconds = (date: Date, seconds: number): Date => {
   date.setSeconds(date.getSeconds() + seconds);
   return date;
 };
+
+export const cache = createCacheStorage();
