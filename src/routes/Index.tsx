@@ -7,21 +7,25 @@ import AlbumRandomizer from '~/components/AlbumRandomizer';
 import cache from '~/utils/cache';
 
 const loadAlbumLibrary = async (): Promise<SavedAlbum[]> => {
-  return await cache.gset('user:albums', async () => {
-    const limit = 50;
-    let offset = 0;
-    let res: SavedAlbum[] = [];
+  return await cache.gset(
+    'user:albums',
+    async () => {
+      const limit = 50;
+      let offset = 0;
+      let res: SavedAlbum[] = [];
 
-    for (;;) {
-      const r = await getUserSavedAlbums(limit, offset);
-      res = [...res, ...r.items];
+      for (;;) {
+        const r = await getUserSavedAlbums(limit, offset);
+        res = [...res, ...r.items];
 
-      if (!r.next) break;
-      offset += limit;
-    }
+        if (!r.next) break;
+        offset += limit;
+      }
 
-    return res;
-  });
+      return res;
+    },
+    60 * 5
+  );
 };
 
 export default function Index() {
