@@ -70,7 +70,7 @@ export default function Album({
   };
 
   return (
-    <div className="flex flex-col md:flex-row md:space-x-4 space-y-2 md:ml-16">
+    <div className="flex flex-col md:flex-row md:space-x-4 space-y-2 md:space-y-0 md:ml-16">
       <ExternalLink to={url}>
         <img src={cover} alt={name} className="mx-auto w-80 h-80 md:w-60 md:h-60 lg:w-80 lg:h-80" />
       </ExternalLink>
