@@ -1,10 +1,12 @@
 import type { SavedAlbum, Track } from '@spotify/web-api-ts-sdk';
 import useSWR from 'swr';
 import { Link } from 'react-router-dom';
-import { createDurationFormatter } from '@julesrx/utils';
+import { createDurationFormatter, createTimeAgoFormatter } from '@julesrx/utils';
+import type { ReactNode } from 'react';
 
 import { getAlbumTracks } from '~/spotify';
 import cache from '~/utils/cache';
+import { locale } from '~/utils';
 
 const getFullAlbumTracks = async (id: string) => {
   return await cache.gset(`album:${id}:tracks`, async () => {
@@ -28,35 +30,57 @@ function Point() {
   return <span>&bull;</span>;
 }
 
-const ducrationFormatter = createDurationFormatter(undefined, 'short', 'narrow');
+const dateFormatter = new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' });
+const timeAgoFormatter = createTimeAgoFormatter(locale);
+const ducrationFormatter = createDurationFormatter(locale, {
+  unitDisplay: 'narrow',
+  listStyle: 'narrow',
+});
 const getAlbumDuration = (tracks: Track[]) => {
-  // TODO: remove milliseconds
   const ms = tracks.map((t) => t.duration_ms).reduce((a, b) => a + b, 0);
   return ducrationFormatter.format(ms);
 };
+
+function ExternalLink({ children, to }: { children: ReactNode; to: string }) {
+  return (
+    <Link target="_blank" rel="nofollow" to={to}>
+      {children}
+    </Link>
+  );
+}
 
 export default function Album({ album }: { album: SavedAlbum }) {
   const id = album.album.id;
   const url = album.album.external_urls.spotify;
   const name = album.album.name;
   const cover = album.album.images[0].url;
-  const artist = album.album.artists[0].name;
+  const artist = album.album.artists[0];
   const year = new Date(album.album.release_date).getFullYear();
   const totalTracks = album.album.total_tracks;
 
+  const addedAt = new Date(album.added_at);
+  const addedAgo = timeAgoFormatter.format(addedAt);
+  const addedAtFormatted = dateFormatter.format(addedAt);
+
   const { data: tracks, isLoading } = useSWR(`album:${id}:tracks`, () => getFullAlbumTracks(id));
+
+  // TODO: link rel opener album and
 
   return (
     <div className="flex space-x-4">
-      <img src={cover} alt={name} className={'w-80 h-80'} />
+      <ExternalLink to={url}>
+        <img src={cover} alt={name} className={'w-80 h-80'} />
+      </ExternalLink>
 
       <div className="w-[32rem]">
         <h2 className="text-3xl font-bold">
-          <Link to={url}>{name}</Link>
+          <ExternalLink to={url}>{name}</ExternalLink>
         </h2>
 
         <div className="flex space-x-1">
-          <h3 className="font-bold">{artist}</h3>
+          <h3 className="font-bold">
+            <ExternalLink to={artist.external_urls.spotify}>{artist.name}</ExternalLink>
+          </h3>
           <Point />
           <div>{year}</div>
         </div>
@@ -65,6 +89,10 @@ export default function Album({ album }: { album: SavedAlbum }) {
           <span>{totalTracks} songs</span>
           <Point />
           {!isLoading && tracks && <span>{getAlbumDuration(tracks)}</span>}
+        </div>
+
+        <div className="flex space-x-1 opacity-70 text-sm">
+          <span title={addedAtFormatted}>Added {addedAgo}</span>
         </div>
       </div>
     </div>

@@ -1,3 +1,5 @@
+export const locale = 'en-US'
+
 export const shuffle = <T>(arr: T[]) => {
   let currentIndex = arr.length;
   let randomIndex;

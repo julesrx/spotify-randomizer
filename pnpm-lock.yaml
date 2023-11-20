@@ -12,8 +12,8 @@ dependencies:
     specifier: ^2.0.18
     version: 2.0.18(react@18.2.0)
   '@julesrx/utils':
-    specifier: ^0.0.3
-    version: 0.0.3(typescript@5.2.2)
+    specifier: ^0.0.4
+    version: 0.0.4(typescript@5.2.2)
   destr:
     specifier: ^2.0.2
     version: 2.0.2
@@ -610,8 +610,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@julesrx/utils@0.0.3(typescript@5.2.2):
-    resolution: {integrity: sha512-DtRtRhANSDmq2lSAn5z2ZexBMXeBeLvxHDrgCKHpFqI/Bd/a9qXXKRY6s/PQukAHQsaB2y9KEX3PKulbvtkCMQ==}
+  /@julesrx/utils@0.0.4(typescript@5.2.2):
+    resolution: {integrity: sha512-3WlTKlmavMGYpX1GlgfH43TF/ljxdsuvTTuSeyaxuGOnyagwjfOjUHpbzmope3xas/Lagl0O4shyPJiecJ5GIg==}
     peerDependencies:
       typescript: ^5.0.0
     dependencies:
