@@ -81,8 +81,6 @@ const tokenExpKey = 'auth:token-expiration';
 export const setToken = (response: TokenResponse) => {
   localStorage.setItem(tokenKey, JSON.stringify(response));
 
-  console.log(response.expires_in);
-
   let expiration = new Date();
   expiration = addSeconds(expiration, response.expires_in);
 

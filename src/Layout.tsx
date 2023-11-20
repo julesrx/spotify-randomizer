@@ -1,13 +1,12 @@
-import { Outlet } from "react-router-dom";
-import useSWR from "swr";
+import { Outlet } from 'react-router-dom';
+import useSWR from 'swr';
 
-import PlaybackState from "components/PlaybackState";
-import Nav from "components/Nav";
-import { getAvailableDevices } from "~/spotify";
-import { DevicesContext } from "~/context";
+import Nav from 'components/Nav';
+import { getAvailableDevices } from '~/spotify';
+import { DevicesContext } from '~/context';
 
 export default function Layout() {
-  const { data } = useSWR("devices", () => getAvailableDevices(), {
+  const { data } = useSWR('devices', () => getAvailableDevices(), {
     refreshInterval: 30000,
   });
 
@@ -17,7 +16,7 @@ export default function Layout() {
       <main>
         <Outlet />
       </main>
-      <PlaybackState />
+      {/* <PlaybackState /> */}
     </DevicesContext.Provider>
   );
 }

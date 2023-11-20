@@ -1,3 +1,38 @@
+import useSWR from 'swr';
+import type { SavedAlbum } from '@spotify/web-api-ts-sdk';
+
+import { getUserSavedAlbums } from '~/spotify';
+import { AlbumsContext } from '~/context';
+import AlbumRandomizer from '~/components/AlbumRandomizer';
+
+const loadAlbumLibrary = async (): Promise<SavedAlbum[]> => {
+  const limit = 50;
+  let offset = 0;
+  let res: SavedAlbum[] = [];
+
+  for (;;) {
+    const r = await getUserSavedAlbums(limit, offset);
+    res = [...res, ...r.items];
+
+    if (!r.next) break;
+    offset += limit;
+  }
+
+  return res;
+};
+
 export default function Index() {
-  return <p>Welcome!</p>;
+  const { data, isLoading } = useSWR('albums', () => loadAlbumLibrary(), {
+    revalidateOnFocus: false,
+    // revalidateOnMount: false,
+  });
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!data?.length) return <p>You don't have any saved albums</p>;
+
+  return (
+    <AlbumsContext.Provider value={data}>
+      <AlbumRandomizer />
+    </AlbumsContext.Provider>
+  );
 }
