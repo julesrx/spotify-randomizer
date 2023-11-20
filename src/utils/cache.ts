@@ -1,25 +1,25 @@
-import { safeDestr } from "destr";
+import { createStorage, type StorageValue } from 'unstorage';
+import ibb from 'unstorage/drivers/indexedb';
 
-const key = (id: string) => `cache:${id}`;
+const storage = createStorage({ driver: ibb({ base: 'cache' }) });
 
-const get = <T>(id: string): T | null => {
-  const cached = localStorage.getItem(key(id));
-  if (!cached) return null;
+// TODO: set short cache expiration
 
-  return safeDestr<T>(cached);
+const get = async <T extends StorageValue>(id: string) => {
+  return await storage.getItem<T>(id);
 };
 
-const set = <T>(id: string, value: T) => {
-  localStorage.setItem(key(id), JSON.stringify(value));
+const set = async <T extends StorageValue>(id: string, value: T) => {
+  return await storage.setItem<T>(id, value);
 };
 
-const gset = async <T>(id: string, getter: () => T | Promise<T>) => {
-  const cached = get<T>(id);
+const gset = async <T extends StorageValue>(id: string, getter: () => T | Promise<T>) => {
+  const cached = await get<T>(id);
   if (cached) return cached;
 
   const res = await getter();
 
-  set(id, res);
+  await set(id, res);
   return res;
 };
 
