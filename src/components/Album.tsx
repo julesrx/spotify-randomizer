@@ -1,14 +1,14 @@
 import type { SavedAlbum, Track } from '@spotify/web-api-ts-sdk';
 import useSWR from 'swr';
-import { Link } from 'react-router-dom';
 import { createDurationFormatter, createTimeAgoFormatter } from '@julesrx/utils';
-import { useState, type ReactNode, useEffect } from 'react';
-import { ArrowPathIcon, QueueListIcon } from '@heroicons/react/24/outline';
+import { useState, useEffect } from 'react';
+import { ArrowPathIcon, QueueListIcon } from '@heroicons/react/24/solid';
 
 import { addItemToPlaybackQueue, getAlbumTracks } from '~/spotify';
 import cache from '~/utils/cache';
 import { locale } from '~/utils';
 import { useDeviceContext } from '~/context';
+import ExternalLink from './ExternalLink';
 
 const getFullAlbumTracks = async (id: string) => {
   return await cache.gset(`album:${id}:tracks`, async () => {
@@ -42,14 +42,6 @@ const getAlbumDuration = (tracks: Track[]) => {
   const ms = tracks.map((t) => t.duration_ms).reduce((a, b) => a + b, 0);
   return ducrationFormatter.format(ms);
 };
-
-function ExternalLink({ children, to }: { children: ReactNode; to: string }) {
-  return (
-    <Link target="_blank" rel="nofollow" to={to}>
-      {children}
-    </Link>
-  );
-}
 
 export default function Album({
   album,
