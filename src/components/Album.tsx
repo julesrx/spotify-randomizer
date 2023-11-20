@@ -4,28 +4,16 @@ import { createDurationFormatter, createTimeAgoFormatter } from '@julesrx/utils'
 import { useState, useEffect } from 'react';
 import { ArrowPathIcon, QueueListIcon } from '@heroicons/react/24/solid';
 
-import { addItemToPlaybackQueue, getAlbumTracks } from '~/spotify';
+import { addItemToPlaybackQueue, getAlbumTracks, getPaginated } from '~/spotify';
 import cache from '~/utils/cache';
 import { locale } from '~/utils';
 import { useDeviceContext } from '~/context';
 import ExternalLink from './ExternalLink';
 
 const getFullAlbumTracks = async (id: string) => {
-  return await cache.gset(`album:${id}:tracks`, async () => {
-    const limit = 50;
-    let offset = 0;
-    let res: Track[] = [];
-
-    for (;;) {
-      const r = await getAlbumTracks(id, limit, offset);
-      res = [...res, ...r.items];
-
-      if (!r.next) break;
-      offset += limit;
-    }
-
-    return res;
-  });
+  return await cache.gset(`album:${id}:tracks`, () =>
+    getPaginated((l, o) => getAlbumTracks(id, l, o))
+  );
 };
 
 function Point() {

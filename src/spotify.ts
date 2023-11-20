@@ -23,6 +23,22 @@ const api = ofetch.create({
   },
 });
 
+export const getPaginated = async <T>(fn: (limit: number, offset: number) => Promise<Page<T>>) => {
+  const limit = 50;
+  let offset = 0;
+  let res: T[] = [];
+
+  for (;;) {
+    const r = await fn(limit, offset);
+    res = [...res, ...r.items];
+
+    if (!r.next) break;
+    offset += limit;
+  }
+
+  return res;
+};
+
 export const getProfile = async () => await api<UserProfile>('me');
 
 export const getPlaybackState = async () => {
@@ -58,7 +74,7 @@ export const getUserTopItems = async <T extends 'artists' | 'tracks'>(
   type: T,
   timeRange: 'long_term' | 'medium_term' | 'short_term',
   limit = 50,
-  offset = 0,
+  offset = 0
 ) => {
   return await api<Page<T extends 'artists' ? Artist : Track>>(`me/top/${type}`, {
     params: { time_range: timeRange, limit, offset },
