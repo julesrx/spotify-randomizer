@@ -70,18 +70,18 @@ export default function Album({
   };
 
   return (
-    <div className="flex space-x-4 md:ml-16">
+    <div className="flex flex-col md:flex-row md:space-x-4 space-y-2 md:ml-16">
       <ExternalLink to={url}>
-        <img src={cover} alt={name} className={'w-80 h-80'} />
+        <img src={cover} alt={name} className="mx-auto w-80 h-80 md:w-60 md:h-60 lg:w-80 lg:h-80" />
       </ExternalLink>
 
-      <div className="w-[32rem] flex flex-col justify-between">
+      <div className="md:w-[32rem] w-96 text-center md:text-left flex flex-col justify-between">
         <div>
           <h2 className="text-3xl font-bold">
             <ExternalLink to={url}>{name}</ExternalLink>
           </h2>
 
-          <div className="flex space-x-1">
+          <div className="flex space-x-1 justify-center md:justify-start">
             <h3 className="font-bold">
               <ExternalLink to={artist.external_urls.spotify}>{artist.name}</ExternalLink>
             </h3>
@@ -89,7 +89,7 @@ export default function Album({
             <div>{year}</div>
           </div>
 
-          <div className="flex space-x-1 opacity-70 text-sm">
+          <div className="flex space-x-1 opacity-70 text-sm justify-center md:justify-start">
             <span>{totalTracks} songs</span>
 
             {!isLoading && tracks && (
@@ -100,12 +100,12 @@ export default function Album({
             )}
           </div>
 
-          <div className="flex space-x-1 opacity-70 text-sm">
+          <div className="flex space-x-1 opacity-70 text-sm justify-center md:justify-start">
             <span title={addedAtFormatted}>Added {addedAgo}</span>
           </div>
         </div>
 
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 mt-4 md:mt-0 justify-center md:justify-start">
           <button
             type="button"
             onClick={() => addToQueue()}
