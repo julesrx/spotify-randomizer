@@ -14,7 +14,7 @@ const router = createBrowserRouter(
       children: [{ index: true, element: <Index /> }],
     },
   ],
-  { basename: import.meta.env.PROD ? '/spotify-dedup' : undefined }
+  { basename: import.meta.env.PROD ? '/spotify-randomizer' : undefined }
 );
 
 export default router;
