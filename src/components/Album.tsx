@@ -1,42 +1,39 @@
-import type { SavedAlbum, Track } from '@spotify/web-api-ts-sdk';
+import { useState, useEffect, memo } from 'react';
 import useSWR from 'swr';
 import { createDurationFormatter, createTimeAgoFormatter } from '@julesrx/utils';
-import { useState, useEffect } from 'react';
 import { ArrowPathIcon, QueueListIcon } from '@heroicons/react/24/solid';
+import type { SavedAlbum, Track } from '@spotify/web-api-ts-sdk';
 
 import { addItemToPlaybackQueue, getAlbumTracks, getPaginated } from '~/spotify';
 import { cache, locale } from '~/utils';
 import { useDeviceContext } from '~/context';
 import ExternalLink from './ExternalLink';
 
-const getFullAlbumTracks = async (id: string) => {
-  return await cache.gset(`album:${id}:tracks`, () =>
-    getPaginated((l, o) => getAlbumTracks(id, l, o))
-  );
-};
+const Point = memo(() => <span>&bull;</span>);
 
-function Point() {
-  return <span>&bull;</span>;
-}
+const dateTimeFormatter = new Intl.DateTimeFormat(locale, {
+  dateStyle: 'medium',
+  timeStyle: 'short',
+});
+const dateFormatter = new Intl.DateTimeFormat(locale, { dateStyle: 'medium' });
 
-const dateFormatter = new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' });
 const timeAgoFormatter = createTimeAgoFormatter(locale);
-const ducrationFormatter = createDurationFormatter(locale, {
+const durationFormatter = createDurationFormatter(locale, {
   unitDisplay: 'narrow',
   listStyle: 'narrow',
 });
+
 const getAlbumDuration = (tracks: Track[]) => {
   const ms = tracks.map((t) => t.duration_ms).reduce((a, b) => a + b, 0);
-  return ducrationFormatter.format(ms);
+  return durationFormatter.format(ms);
 };
 
-export default function Album({
-  album,
-  onRandomize,
-}: {
+interface Props {
   album: SavedAlbum;
   onRandomize: () => void;
-}) {
+}
+
+export default function Album({ album, onRandomize }: Props) {
   const { hasActiveDevice } = useDeviceContext();
 
   const [activeAddToQueue, setActiveAddToQueue] = useState(hasActiveDevice);
@@ -47,14 +44,19 @@ export default function Album({
   const name = album.album.name;
   const cover = album.album.images[0].url;
   const artist = album.album.artists[0];
-  const year = new Date(album.album.release_date).getFullYear();
   const totalTracks = album.album.total_tracks;
+
+  const releaseDate = new Date(album.album.release_date);
+  const releaseYear = releaseDate.getFullYear();
+  const releaseDateFormatted = dateFormatter.format(releaseDate);
 
   const addedAt = new Date(album.added_at);
   const addedAgo = timeAgoFormatter.format(addedAt);
-  const addedAtFormatted = dateFormatter.format(addedAt);
+  const addedAtFormatted = dateTimeFormatter.format(addedAt);
 
-  const { data: tracks, isLoading } = useSWR(`album:${id}:tracks`, () => getFullAlbumTracks(id));
+  const { data: tracks, isLoading } = useSWR(`album:${id}:tracks`, () =>
+    cache.gset(`album:${id}:tracks`, () => getPaginated((l, o) => getAlbumTracks(id, l, o)))
+  );
 
   const addToQueue = async () => {
     if (!tracks) return;
@@ -70,14 +72,18 @@ export default function Album({
   };
 
   return (
-    <div className="flex flex-col md:flex-row md:space-x-4 space-y-2 md:space-y-0 md:ml-16">
+    <div className="flex flex-col md:flex-row md:justify-center md:space-x-2 lg:space-x-4 space-y-2 md:space-y-0 px-2 md:px-0">
       <ExternalLink to={url}>
-        <img src={cover} alt={name} className="mx-auto w-80 h-80 md:w-60 md:h-60 lg:w-80 lg:h-80" />
+        <img
+          src={cover}
+          alt={name}
+          className="mx-auto w-80 h-80 md:w-60 md:h-60 lg:w-80 lg:h-80 md:ml-20 lg:ml-48"
+        />
       </ExternalLink>
 
-      <div className="md:w-[32rem] w-96 text-center md:text-left flex flex-col justify-between">
+      <div className="md:w-80 lg:w-[32rem] flex flex-col justify-center md:justify-between">
         <div>
-          <h2 className="text-3xl font-bold">
+          <h2 className="text-3xl font-bold text-center md:text-left">
             <ExternalLink to={url}>{name}</ExternalLink>
           </h2>
 
@@ -86,7 +92,7 @@ export default function Album({
               <ExternalLink to={artist.external_urls.spotify}>{artist.name}</ExternalLink>
             </h3>
             <Point />
-            <div>{year}</div>
+            <div title={releaseDateFormatted}>{releaseYear}</div>
           </div>
 
           <div className="flex space-x-1 opacity-70 text-sm justify-center md:justify-start">
