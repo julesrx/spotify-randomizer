@@ -39,7 +39,7 @@ export default function Nav() {
         <button
           type="button"
           title={activeDevice ? `Playing on ${activeDevice.name}` : 'Not devices in use...'}
-          className={`${buttonSize} ${hasActiveDevice ? 'text-spotify-green' : ''}`}
+          className={`${buttonSize} ${hasActiveDevice ? 'text-spotify-green' : 'text-red-500'}`}
         >
           <ComputerDesktopIcon />
         </button>
