@@ -13,7 +13,7 @@ import { addSeconds } from '~/utils';
 
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 const baseUrl = 'https://accounts.spotify.com';
-const callbackUri = '/callback';
+const callbackUri = `${import.meta.env.PROD ? '/spotify-randomizer' : ''}/callback`;
 const redirectUri = `${location.origin}${callbackUri}`;
 
 // ----
