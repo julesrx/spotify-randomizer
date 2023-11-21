@@ -19,6 +19,7 @@ class AuthProvider {
 
   async load() {
     if (this.profile) return;
+    if (!(await this.isAuthenticated())) return;
 
     const profile = await getProfile();
     this.profile = profile;
