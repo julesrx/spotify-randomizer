@@ -6,10 +6,10 @@ export default function LoginScreen() {
     <div className="h-screen w-screen flex justify-center items-center">
       <button
         type="button"
-        className="bg-spotify-green flex uppercase justify-between items-center py-4 px-4 space-x-4 rounded-full text-2xl font-bold hover:opacity-95"
+        className="bg-spotify-green flex justify-between items-center py-4 px-4 space-x-4 rounded-full text-xl font-semibold hover:opacity-95"
         onClick={() => redirectToAuthCodeFlow(location.pathname)}
       >
-        <img src={icon} className="w-14 h-14" />
+        <img src={icon} className="w-12 h-12" />
         <span>Sign in with Spotify</span>
       </button>
     </div>
