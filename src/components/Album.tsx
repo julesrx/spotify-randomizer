@@ -75,11 +75,7 @@ export default function Album({ album, onRandomize }: Props) {
   return (
     <div className="flex flex-col md:flex-row md:justify-center md:space-x-2 lg:space-x-4 space-y-2 md:space-y-0 px-2 md:px-0">
       <ExternalLink to={url}>
-        <img
-          src={cover}
-          alt={name}
-          className="mx-auto w-80 h-80 md:w-60 md:h-60 lg:w-80 lg:h-80 md:ml-20 lg:ml-48"
-        />
+        <img src={cover} alt={name} className="w-80 h-80 md:w-60 md:h-60 lg:w-80 lg:h-80" />
       </ExternalLink>
 
       <div className="md:w-80 lg:w-[32rem] flex flex-col justify-center md:justify-between">
