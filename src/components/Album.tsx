@@ -34,7 +34,7 @@ interface Props {
 }
 
 export default function Album({ album, onRandomize }: Props) {
-  const { hasActiveDevice } = useDeviceContext();
+  const { hasActiveDevice, activeDevice, lastActiveDevice } = useDeviceContext();
 
   const [activeAddToQueue, setActiveAddToQueue] = useState(hasActiveDevice);
   useEffect(() => setActiveAddToQueue(hasActiveDevice), [hasActiveDevice]);
@@ -65,7 +65,7 @@ export default function Album({ album, onRandomize }: Props) {
     setActiveAddToQueue(false);
 
     for (const track of tracks) {
-      await addItemToPlaybackQueue(track.uri);
+      await addItemToPlaybackQueue(track.uri, (activeDevice ?? lastActiveDevice)?.id ?? undefined);
     }
 
     setActiveAddToQueue(true);

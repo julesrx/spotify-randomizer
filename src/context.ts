@@ -1,17 +1,25 @@
 import { createContext, useContext } from 'react';
-import type { Devices, SavedAlbum } from '@spotify/web-api-ts-sdk';
+import type { Device, SavedAlbum } from '@spotify/web-api-ts-sdk';
 
-export const DevicesContext = createContext<Devices>({ devices: [] });
+interface DeviceContext {
+  activeDevice?: Device;
+  lastActiveDevice?: Device;
+}
+
+export const DevicesContext = createContext<DeviceContext>({});
 export const AlbumsContext = createContext<SavedAlbum[]>([]);
 
+// export const setDeviceContext=()=>{
+
+// }
+
 export const useDeviceContext = () => {
-  const devices = useContext(DevicesContext);
-  const activeDevice = devices.devices.find((d) => d.is_active);
+  const { activeDevice, lastActiveDevice } = useContext(DevicesContext);
   const hasActiveDevice = !!activeDevice;
 
   return {
-    devices,
     activeDevice,
     hasActiveDevice,
+    lastActiveDevice,
   };
 };
