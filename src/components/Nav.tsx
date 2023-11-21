@@ -17,6 +17,8 @@ const useRevalidate = () => {
   }, [navigate, revalidator]);
 };
 
+const buttonSize = 'w-6 h-6';
+
 export default function Nav() {
   const profile = useLoaderData() as UserProfile;
   const url = profile.external_urls.spotify;
@@ -29,17 +31,15 @@ export default function Nav() {
     revalidate();
   };
 
-  const { activeDevice, hasActiveDevice } = useDeviceContext();
-
-  const buttonSize = 'w-6 h-6';
+  const { activeDevice } = useDeviceContext();
 
   return (
     <nav className="fixed top-0 w-screen flex justify-end items-center p-4 space-x-4">
       <div className="flex items-center space-x-2">
         <button
           type="button"
-          title={activeDevice ? `Playing on ${activeDevice.name}` : 'Not devices in use...'}
-          className={`${buttonSize} ${hasActiveDevice ? 'text-spotify-green' : 'text-red-500'}`}
+          title={activeDevice ? `Playing on ${activeDevice.name}` : 'Not devices in use'}
+          className={`${buttonSize} ${activeDevice ? 'text-spotify-green' : ''}`}
         >
           <ComputerDesktopIcon />
         </button>

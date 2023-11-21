@@ -59,7 +59,7 @@ export const getAlbumTracks = async (id: string, limit = 50, offset = 0) => {
   });
 };
 
-export const addItemToPlaybackQueue = async (uri: string, deviceId?: string) => {
+export const addItemToPlaybackQueue = async (uri: string, deviceId?: string | null) => {
   await api('me/player/queue', {
     method: 'POST',
     params: { uri, device_id: deviceId },

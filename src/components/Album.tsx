@@ -34,10 +34,11 @@ interface Props {
 }
 
 export default function Album({ album, onRandomize }: Props) {
-  const { hasActiveDevice, activeDevice, lastActiveDevice } = useDeviceContext();
+  const { hasDevice, getDevice } = useDeviceContext();
+  const device = getDevice();
 
-  const [activeAddToQueue, setActiveAddToQueue] = useState(hasActiveDevice);
-  useEffect(() => setActiveAddToQueue(hasActiveDevice), [hasActiveDevice]);
+  const [canAddToQueue, setCanAddToQueue] = useState(hasDevice);
+  useEffect(() => setCanAddToQueue(hasDevice), [hasDevice]);
 
   const id = album.album.id;
   const url = album.album.external_urls.spotify;
@@ -60,15 +61,15 @@ export default function Album({ album, onRandomize }: Props) {
 
   const addToQueue = async () => {
     if (!tracks) return;
-    if (!hasActiveDevice) return;
+    if (!hasDevice) return;
 
-    setActiveAddToQueue(false);
+    setCanAddToQueue(false);
 
     for (const track of tracks) {
-      await addItemToPlaybackQueue(track.uri, (activeDevice ?? lastActiveDevice)?.id ?? undefined);
+      await addItemToPlaybackQueue(track.uri, device?.id);
     }
 
-    setActiveAddToQueue(true);
+    setCanAddToQueue(true);
   };
 
   return (
@@ -115,8 +116,12 @@ export default function Album({ album, onRandomize }: Props) {
           <button
             type="button"
             onClick={() => addToQueue()}
-            title={hasActiveDevice ? 'Add to queue' : 'A device needs to be active to add to queue'}
-            disabled={!activeAddToQueue}
+            title={
+              hasDevice
+                ? `Add to queue (${device!.name})`
+                : 'A device needs to be accessible to add to queue'
+            }
+            disabled={!canAddToQueue}
             className="disabled:opacity-50"
           >
             <QueueListIcon className="h-6 w-6" />
