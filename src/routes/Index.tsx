@@ -1,5 +1,6 @@
 import useSWR from 'swr';
 import type { SavedAlbum } from '@spotify/web-api-ts-sdk';
+import { ArrowPathIcon } from '@heroicons/react/24/solid';
 
 import { getPaginated, getUserSavedAlbums } from '~/spotify';
 import { AlbumsContext } from '~/context';
@@ -20,7 +21,16 @@ export default function Index() {
     revalidateOnFocus: false,
   });
 
-  if (isLoading) return <Loading>Loading library...</Loading>;
+  if (isLoading)
+    return (
+      <Loading>
+        Loading library...
+        <div className="flex justify-center mt-2">
+          <ArrowPathIcon className="h-6 w-6 animate-spin" />
+        </div>
+      </Loading>
+    );
+    
   if (!data?.length) return <Loading>You don't have any saved albums</Loading>;
 
   return (

@@ -1,7 +1,7 @@
 import { redirectToAuthCodeFlow } from '~/auth';
 import icon from '~/assets/spotify-icon-white.png';
 
-export default function LoginScreen() {
+export default function SigninScreen() {
   return (
     <div className="h-screen w-screen flex justify-center items-center">
       <button

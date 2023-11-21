@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
-interface Props {
+type Props = {
   children: ReactNode;
   fullHeight?: boolean;
-}
+};
 
 export default function Loading({ children, fullHeight }: Props) {
   return (

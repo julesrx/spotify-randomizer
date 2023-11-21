@@ -26,7 +26,7 @@ export default function Nav() {
   const avatar = profile.images.sort((a, b) => a.height - b.height)[0].url;
 
   const revalidate = useRevalidate();
-  const logout = async () => {
+  const signout = async () => {
     await auth.signout();
     revalidate();
   };
@@ -44,7 +44,7 @@ export default function Nav() {
           <ComputerDesktopIcon />
         </button>
 
-        <button type="button" onClick={() => logout()} title="Logout" className={buttonSize}>
+        <button type="button" onClick={() => signout()} title="Sign out" className={buttonSize}>
           <PowerIcon />
         </button>
       </div>
