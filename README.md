@@ -8,6 +8,3 @@ Randomize your spotify experience.
 
 - fix cache expiration
 - fix token expiration and auto refresh
-- add message when all the tracks have been added to the queue
-- make it clearer that a device needs to be active to use the app
-  - maybe remember the last active device ?

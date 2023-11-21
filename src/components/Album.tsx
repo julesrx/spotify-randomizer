@@ -70,6 +70,7 @@ export default function Album({ album, onRandomize }: Props) {
     }
 
     setCanAddToQueue(true);
+    onRandomize();
   };
 
   return (
