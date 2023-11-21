@@ -19,7 +19,7 @@ export const useProvideDeviceContext = () => {
   });
 
   const activeDevice = data?.devices.find((d) => d.is_active);
-  const [lastActiveDevice, setLastActiveDevice] = useState<Device | null>(null);
+  const [lastActiveDevice, setLastActiveDevice] = useState<Device>();
 
   useEffect(() => {
     if (!activeDevice) return;
