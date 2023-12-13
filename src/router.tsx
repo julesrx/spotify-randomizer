@@ -1,12 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { authLoader, callbackRoute } from '~/auth';
+import { authLoader } from '~/auth';
 import App from '~/App';
 import Index from './routes/Index';
 
 const router = createBrowserRouter(
   [
-    callbackRoute,
     {
       path: '/',
       loader: authLoader,
