@@ -3,16 +3,15 @@ import PowerIcon from '~icons/heroicons/power-solid';
 import ComputerDesktopIcon from '~icons/heroicons/computer-desktop-solid';
 import GithubIcon from '~icons/logos/github-icon';
 
-import auth from '~/auth/provider';
-import { SignoutContext, useDeviceContext } from '~/context';
+import { useDeviceContext } from '~/context';
+import { AuthContext } from '~/auth/context';
 import ExternalLink from './ExternalLink';
 
 const buttonSize = 'w-6 h-6';
 
 export default function Nav() {
-  const { signout } = useContext(SignoutContext);
+  const { signout, profile } = useContext(AuthContext);
 
-  const profile = auth.profile!;
   const url = profile.external_urls.spotify;
   const name = profile.display_name;
   const avatar = profile.images.sort((a, b) => a.height - b.height)[0].url;
