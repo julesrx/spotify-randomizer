@@ -25,7 +25,8 @@
       "~/*": ["src/*"],
       "components/*": ["src/components/*"],
       "routes/*": ["src/routes/*"]
-    }
+    },
+    "types": ["unplugin-icons/types/react"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

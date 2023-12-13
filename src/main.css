@@ -3,3 +3,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#spotify-icon path {
+  fill: currentColor !important;
+}

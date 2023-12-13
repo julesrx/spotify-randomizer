@@ -1,10 +1,11 @@
 import { useContext } from 'react';
-import { PowerIcon, ComputerDesktopIcon } from '@heroicons/react/24/solid';
+import PowerIcon from '~icons/heroicons/power-solid';
+import ComputerDesktopIcon from '~icons/heroicons/computer-desktop-solid';
+import GitHubLogo from '~icons/logos/github';
 
 import auth from '~/auth/provider';
 import { SignoutContext, useDeviceContext } from '~/context';
 import ExternalLink from './ExternalLink';
-import GitHubIcon from './GitHubIcon';
 
 const buttonSize = 'w-6 h-6';
 
@@ -21,7 +22,7 @@ export default function Nav() {
   return (
     <nav className="fixed top-0 w-screen flex items-center p-4 space-x-4">
       <ExternalLink to="https://github.com/julesrx/spotify-randomizer" title="Source">
-        <GitHubIcon />
+        <GitHubLogo className="w-6 h-6 opacity-50" />
       </ExternalLink>
 
       <div className="flex-1" />

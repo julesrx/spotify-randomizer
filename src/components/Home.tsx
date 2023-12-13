@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import type { SavedAlbum } from '@spotify/web-api-ts-sdk';
-import { ArrowPathIcon } from '@heroicons/react/24/solid';
+import ArrowPathIcon from '~icons/heroicons/arrow-path-solid';
 
 import { getPaginated, getUserSavedAlbums } from '~/utils/spotify';
 import { AlbumsContext } from '~/context';
