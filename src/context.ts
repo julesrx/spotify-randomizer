@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import type { Device, SavedAlbum } from '@spotify/web-api-ts-sdk';
 import useSWR from 'swr';
 
-import { getAvailableDevices } from './spotify';
+import { getAvailableDevices } from './utils/spotify';
 
 export const AlbumsContext = createContext<SavedAlbum[]>([]);
 

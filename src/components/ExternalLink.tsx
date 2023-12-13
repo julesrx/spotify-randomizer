@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
 
 interface Props {
   children: ReactNode;
@@ -9,8 +8,8 @@ interface Props {
 
 export default function ExternalLink({ children, to, title }: Props) {
   return (
-    <Link target="_blank" rel="nofollow" to={to} title={title}>
+    <a target="_blank" rel="nofollow" href={to} title={title}>
       {children}
-    </Link>
+    </a>
   );
 }

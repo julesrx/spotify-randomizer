@@ -1,9 +1,7 @@
 import { safeDestr } from 'destr';
 import { ofetch } from 'ofetch';
-import { redirect, type LoaderFunction } from 'react-router-dom';
 
 import { generateCodeChallenge, generateCodeVerifier } from './utils';
-import auth from './provider';
 import { addSeconds } from '~/utils';
 
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
@@ -101,28 +99,6 @@ export const getToken = async (): Promise<TokenResponse | null> => {
   return token;
 };
 
-// ----
-export const authLoader: LoaderFunction = async ({ request }) => {
-  const url = new URL(request.url);
-  const code = url.searchParams.get('code');
-  if (code) {
-    await auth.signin(code);
-
-    const returnPathname = localStorage.getItem(returnPathnameKey);
-    return redirect(returnPathname ?? '/');
-  }
-
-  if (!auth.isAuthenticated) return null;
-
-  try {
-    await auth.load();
-    return auth.profile;
-  } catch {
-    return null;
-  }
-};
-
-// ----
 interface TokenResponse {
   access_token: string;
   expires_in: number;

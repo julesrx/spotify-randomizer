@@ -2,7 +2,7 @@ import useSWR from 'swr';
 import type { SavedAlbum } from '@spotify/web-api-ts-sdk';
 import { ArrowPathIcon } from '@heroicons/react/24/solid';
 
-import { getPaginated, getUserSavedAlbums } from '~/spotify';
+import { getPaginated, getUserSavedAlbums } from '~/utils/spotify';
 import { AlbumsContext } from '~/context';
 import AlbumRandomizer from '~/components/AlbumRandomizer';
 import Loading from '~/components/Loading';
@@ -12,7 +12,7 @@ const loadAlbumLibrary = async (): Promise<SavedAlbum[]> => {
   return await cache.gset('user:albums', async () => await getPaginated(getUserSavedAlbums));
 };
 
-export default function Index() {
+export default function Home() {
   const { data, isLoading } = useSWR('albums', () => loadAlbumLibrary(), {
     revalidateOnFocus: false,
   });

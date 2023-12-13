@@ -1,6 +1,3 @@
-import { useCallback } from 'react';
-import type { UserProfile } from '@spotify/web-api-ts-sdk';
-import { useLoaderData, useNavigate, useRevalidator } from 'react-router-dom';
 import { PowerIcon, ComputerDesktopIcon } from '@heroicons/react/24/solid';
 
 import auth from '~/auth/provider';
@@ -8,28 +5,17 @@ import { useDeviceContext } from '~/context';
 import ExternalLink from './ExternalLink';
 import GitHubIcon from './GitHubIcon';
 
-const useRevalidate = () => {
-  const navigate = useNavigate();
-  const revalidator = useRevalidator();
-
-  return useCallback(() => {
-    navigate('/', { replace: true });
-    revalidator.revalidate();
-  }, [navigate, revalidator]);
-};
-
 const buttonSize = 'w-6 h-6';
 
-export default function Nav() {
-  const profile = useLoaderData() as UserProfile;
+export default function Nav({ onRevalidate }: { onRevalidate: () => void }) {
+  const profile = auth.profile!;
   const url = profile.external_urls.spotify;
   const name = profile.display_name;
   const avatar = profile.images.sort((a, b) => a.height - b.height)[0].url;
 
-  const revalidate = useRevalidate();
   const signout = async () => {
     await auth.signout();
-    revalidate();
+    onRevalidate();
   };
 
   const { activeDevice } = useDeviceContext();
