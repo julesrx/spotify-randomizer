@@ -1,16 +1,12 @@
 import useSWR from 'swr';
 import { UserProfile } from '@spotify/web-api-ts-sdk';
 
-import SigninScreen from './components/SigninScreen';
-import Home from './components/Home';
-import Nav from './components/Nav';
-import { DevicesContext, useProvideDeviceContext } from './context';
+import SigninScreen from '~/components/SigninScreen';
 import auth from '~/auth/provider';
-import Loading from './components/Loading';
+import Loading from '~/components/Loading';
+import Layout from '~/components/Layout';
 
 export default function App() {
-  const { activeDevice, lastActiveDevice } = useProvideDeviceContext();
-
   const {
     isLoading,
     data: profile,
@@ -31,12 +27,5 @@ export default function App() {
 
   if (!profile) return <SigninScreen />;
 
-  return (
-    <DevicesContext.Provider value={{ activeDevice, lastActiveDevice }}>
-      <Nav onRevalidate={() => mutate()} />
-      <main className="h-screen">
-        <Home />
-      </main>
-    </DevicesContext.Provider>
-  );
+  return <Layout onRevalidate={() => mutate()} />;
 }
