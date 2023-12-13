@@ -119,7 +119,7 @@ export default function Album({ album, onRandomize }: Props) {
                 : 'A device needs to be accessible to add to queue'
             }
             disabled={!canAddToQueue}
-            className="disabled:opacity-50"
+            className="disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <QueueListIcon className="h-6 w-6" />
           </button>

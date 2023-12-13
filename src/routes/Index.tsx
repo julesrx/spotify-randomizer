@@ -9,11 +9,7 @@ import Loading from '~/components/Loading';
 import { cache } from '~/utils';
 
 const loadAlbumLibrary = async (): Promise<SavedAlbum[]> => {
-  return await cache.gset(
-    'user:albums',
-    async () => await getPaginated(getUserSavedAlbums),
-    60 * 5
-  );
+  return await cache.gset('user:albums', async () => await getPaginated(getUserSavedAlbums));
 };
 
 export default function Index() {
@@ -21,7 +17,7 @@ export default function Index() {
     revalidateOnFocus: false,
   });
 
-  if (isLoading)
+  if (isLoading && !data?.length)
     return (
       <Loading>
         Loading library...
@@ -30,7 +26,7 @@ export default function Index() {
         </div>
       </Loading>
     );
-    
+
   if (!data?.length) return <Loading>You don't have any saved albums</Loading>;
 
   return (
