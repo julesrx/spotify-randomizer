@@ -16,7 +16,7 @@ export default function App() {
     const code = new URL(location.href).searchParams.get('code');
     if (code) {
       await auth.signin(code);
-      history.replaceState({}, '', '/');
+      history.replaceState({}, '', import.meta.env.BASE_URL);
       return auth.profile();
     }
 
