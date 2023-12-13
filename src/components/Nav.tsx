@@ -6,6 +6,7 @@ import { PowerIcon, ComputerDesktopIcon } from '@heroicons/react/24/solid';
 import auth from '~/auth/provider';
 import { useDeviceContext } from '~/context';
 import ExternalLink from './ExternalLink';
+import GitHubIcon from './GitHubIcon';
 
 const useRevalidate = () => {
   const navigate = useNavigate();
@@ -34,7 +35,12 @@ export default function Nav() {
   const { activeDevice } = useDeviceContext();
 
   return (
-    <nav className="fixed top-0 w-screen flex justify-end items-center p-4 space-x-4">
+    <nav className="fixed top-0 w-screen flex items-center p-4 space-x-4">
+      <ExternalLink to="https://github.com/julesrx/spotify-randomizer" title="Source">
+        <GitHubIcon />
+      </ExternalLink>
+
+      <div className="flex-1" />
       <div className="flex items-center space-x-2">
         <button
           type="button"
