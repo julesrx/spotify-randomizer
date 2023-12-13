@@ -1,19 +1,12 @@
 import { safeDestr } from 'destr';
 import { ofetch } from 'ofetch';
-import {
-  redirect,
-  type LoaderFunctionArgs,
-  type RouteObject,
-  type LoaderFunction,
-} from 'react-router-dom';
 
 import { generateCodeChallenge, generateCodeVerifier } from './utils';
-import auth from './provider';
 import { addSeconds } from '~/utils';
 
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 const baseUrl = 'https://accounts.spotify.com';
-const callbackUri = `${import.meta.env.PROD ? '/spotify-randomizer' : ''}/callback`;
+const callbackUri = `${import.meta.env.PROD ? '/spotify-randomizer' : ''}/`;
 const redirectUri = `${location.origin}${callbackUri}`;
 
 // ----
@@ -106,34 +99,6 @@ export const getToken = async (): Promise<TokenResponse | null> => {
   return token;
 };
 
-// ----
-export const authLoader: LoaderFunction = async () => {
-  if (!auth.isAuthenticated) return null;
-
-  try {
-    await auth.load();
-    return auth.profile;
-  } catch {
-    return null;
-  }
-};
-
-export const callbackRoute: RouteObject = {
-  path: callbackUri,
-  element: <></>,
-  loader: async ({ request }: LoaderFunctionArgs) => {
-    const url = new URL(request.url);
-    const code = url.searchParams.get('code');
-    if (!code) throw new Response("Couldn't get authorization code", { status: 400 });
-
-    await auth.signin(code);
-
-    const returnPathname = localStorage.getItem(returnPathnameKey);
-    return redirect(returnPathname ?? '/');
-  },
-};
-
-// ----
 interface TokenResponse {
   access_token: string;
   expires_in: number;

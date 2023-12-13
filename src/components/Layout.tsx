@@ -1,6 +1,5 @@
-import { Outlet } from 'react-router-dom';
-
-import Nav from 'components/Nav';
+import Home from '~/components/Home';
+import Nav from '~/components/Nav';
 import { DevicesContext, useProvideDeviceContext } from '~/context';
 
 export default function Layout() {
@@ -10,7 +9,7 @@ export default function Layout() {
     <DevicesContext.Provider value={{ activeDevice, lastActiveDevice }}>
       <Nav />
       <main className="h-screen">
-        <Outlet />
+        <Home />
       </main>
     </DevicesContext.Provider>
   );

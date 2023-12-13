@@ -4,7 +4,7 @@ import { createDurationFormatter, createTimeAgoFormatter } from '@julesrx/utils/
 import { ArrowPathIcon, QueueListIcon } from '@heroicons/react/24/solid';
 import type { SavedAlbum, Track } from '@spotify/web-api-ts-sdk';
 
-import { addItemToPlaybackQueue, getAlbumTracks, getPaginated } from '~/spotify';
+import { addItemToPlaybackQueue, getAlbumTracks, getPaginated } from '~/utils/spotify';
 import { cache, locale } from '~/utils';
 import { useDeviceContext } from '~/context';
 import ExternalLink from './ExternalLink';
