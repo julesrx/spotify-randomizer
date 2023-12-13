@@ -1,5 +1,5 @@
 import LogosSpotifyIcon from '~icons/logos/spotify-icon';
-import { redirectToAuthCodeFlow } from '~/auth';
+import { redirectToAuthCodeFlow } from '~/auth/utils';
 
 export default function SigninScreen() {
   return (

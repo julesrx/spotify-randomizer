@@ -10,7 +10,7 @@ import type {
   UserProfile,
 } from '@spotify/web-api-ts-sdk';
 
-import { getToken } from '~/auth';
+import { getToken } from '~/auth/utils';
 
 const api = ofetch.create({
   baseURL: 'https://api.spotify.com/v1',

@@ -1,34 +1,35 @@
 import type { UserProfile } from '@spotify/web-api-ts-sdk';
 
-import { clearToken, fetchToken, getToken, setToken } from '.';
+import { clearToken, fetchToken, getToken, setToken } from './utils';
 import { getProfile } from '~/utils/spotify';
 
-class AuthProvider {
-  public profile: null | UserProfile = null;
+const createProvider = () => {
+  let profile: null | UserProfile = null;
 
-  public async isAuthenticated() {
+  const isAuthenticated = async () => {
     return !!(await getToken());
-  }
+  };
 
-  async signin(code: string) {
+  const signin = async (code: string) => {
     const token = await fetchToken(code);
     setToken(token);
 
-    await this.load();
-  }
+    await load();
+  };
 
-  async load() {
-    if (this.profile) return;
-    if (!(await this.isAuthenticated())) return;
+  const load = async () => {
+    if (profile) return;
+    if (!(await isAuthenticated())) return;
 
-    const profile = await getProfile();
-    this.profile = profile;
-  }
+    profile = await getProfile();
+  };
 
-  async signout() {
+  const signout = () => {
     clearToken();
-    this.profile = null;
-  }
-}
+    profile = null;
+  };
 
-export default new AuthProvider();
+  return { profile: () => profile, signin, load, signout };
+};
+
+export default createProvider();

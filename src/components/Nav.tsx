@@ -12,7 +12,7 @@ const buttonSize = 'w-6 h-6';
 export default function Nav() {
   const { signout } = useContext(SignoutContext);
 
-  const profile = auth.profile!;
+  const profile = auth.profile()!;
   const url = profile.external_urls.spotify;
   const name = profile.display_name;
   const avatar = profile.images.sort((a, b) => a.height - b.height)[0].url;

@@ -17,11 +17,11 @@ export default function App() {
     if (code) {
       await auth.signin(code);
       history.replaceState({}, '', '/');
-      return auth.profile;
+      return auth.profile();
     }
 
     await auth.load();
-    return auth.profile;
+    return auth.profile();
   });
 
   const signout = async () => {
