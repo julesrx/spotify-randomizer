@@ -5,7 +5,7 @@ import auth from '~/auth/provider';
 import SigninScreen from '~/components/SigninScreen';
 import Loading from '~/components/Loading';
 import Layout from '~/components/Layout';
-import { SignoutContext } from './context';
+import { AuthContext } from './auth/context';
 
 export default function App() {
   const {
@@ -24,8 +24,8 @@ export default function App() {
     return auth.profile();
   });
 
-  const signout = async () => {
-    await auth.signout();
+  const signout = () => {
+    auth.signout();
     mutate();
   };
 
@@ -34,8 +34,8 @@ export default function App() {
   if (!profile) return <SigninScreen />;
 
   return (
-    <SignoutContext.Provider value={{ signout }}>
+    <AuthContext.Provider value={{ signout, profile }}>
       <Layout />
-    </SignoutContext.Provider>
+    </AuthContext.Provider>
   );
 }

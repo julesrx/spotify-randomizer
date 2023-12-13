@@ -45,5 +45,3 @@ export const useDeviceContext = () => {
     getDevice,
   };
 };
-
-export const SignoutContext = createContext<{ signout: () => void }>({ signout: () => {} });
