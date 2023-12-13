@@ -16,7 +16,7 @@ export default function Nav() {
   const name = profile.display_name;
   const avatar = profile.images.sort((a, b) => a.height - b.height)[0].url;
 
-  const { activeDevice } = useDeviceContext();
+  const { activeDevice, currentlyPlaying } = useDeviceContext();
 
   return (
     <nav className="fixed top-0 w-screen flex items-center p-4 space-x-4">
@@ -28,7 +28,11 @@ export default function Nav() {
       <div className="flex items-center space-x-2">
         <button
           type="button"
-          title={activeDevice ? `Playing on ${activeDevice.name}` : 'Not devices in use'}
+          title={
+            activeDevice
+              ? `Playing ${currentlyPlaying} on ${activeDevice.name}`
+              : 'No devices in use'
+          }
           className={`${buttonSize} ${activeDevice ? 'text-spotify-green' : ''}`}
         >
           <ComputerDesktopIcon />

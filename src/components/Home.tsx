@@ -10,7 +10,7 @@ import { cache } from '~/utils';
 export default function Home() {
   const { data, isLoading } = useSWR(
     'albums',
-    async () => await cache.gset('user:albums', async () => await getPaginated(getUserSavedAlbums)),
+    () => cache.gset('user:albums', async () => await getPaginated(getUserSavedAlbums)),
     { revalidateOnFocus: false }
   );
 
