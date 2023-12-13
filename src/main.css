@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-#spotify-icon path {
-  fill: currentColor !important;
+#spotify-icon path,
+#github-icon path {
+  @apply fill-current;
 }
