@@ -1,22 +1,20 @@
+import { useContext } from 'react';
 import { PowerIcon, ComputerDesktopIcon } from '@heroicons/react/24/solid';
 
 import auth from '~/auth/provider';
-import { useDeviceContext } from '~/context';
+import { SignoutContext, useDeviceContext } from '~/context';
 import ExternalLink from './ExternalLink';
 import GitHubIcon from './GitHubIcon';
 
 const buttonSize = 'w-6 h-6';
 
-export default function Nav({ onRevalidate }: { onRevalidate: () => void }) {
+export default function Nav() {
+  const { signout } = useContext(SignoutContext);
+
   const profile = auth.profile!;
   const url = profile.external_urls.spotify;
   const name = profile.display_name;
   const avatar = profile.images.sort((a, b) => a.height - b.height)[0].url;
-
-  const signout = async () => {
-    await auth.signout();
-    onRevalidate();
-  };
 
   const { activeDevice } = useDeviceContext();
 

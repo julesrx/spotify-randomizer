@@ -2,12 +2,12 @@ import Home from '~/components/Home';
 import Nav from '~/components/Nav';
 import { DevicesContext, useProvideDeviceContext } from '~/context';
 
-export default function Layout({ onRevalidate }: { onRevalidate: () => void }) {
+export default function Layout() {
   const { activeDevice, lastActiveDevice } = useProvideDeviceContext();
 
   return (
     <DevicesContext.Provider value={{ activeDevice, lastActiveDevice }}>
-      <Nav onRevalidate={onRevalidate} />
+      <Nav />
       <main className="h-screen">
         <Home />
       </main>

@@ -1,10 +1,11 @@
 import useSWR from 'swr';
 import { UserProfile } from '@spotify/web-api-ts-sdk';
 
-import SigninScreen from '~/components/SigninScreen';
 import auth from '~/auth/provider';
+import SigninScreen from '~/components/SigninScreen';
 import Loading from '~/components/Loading';
 import Layout from '~/components/Layout';
+import { SignoutContext } from './context';
 
 export default function App() {
   const {
@@ -23,9 +24,18 @@ export default function App() {
     return auth.profile;
   });
 
+  const signout = async () => {
+    await auth.signout();
+    mutate();
+  };
+
   if (isLoading) return <Loading fullHeight>Loading...</Loading>;
 
   if (!profile) return <SigninScreen />;
 
-  return <Layout onRevalidate={() => mutate()} />;
+  return (
+    <SignoutContext.Provider value={{ signout }}>
+      <Layout />
+    </SignoutContext.Provider>
+  );
 }
