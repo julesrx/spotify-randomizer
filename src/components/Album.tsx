@@ -9,7 +9,6 @@ import { addItemToPlaybackQueue, getAlbumTracks, getPaginated } from '~/utils/sp
 import { cache, locale } from '~/utils';
 import { useDeviceContext } from '~/context';
 import ExternalLink from './ExternalLink';
-import { background } from '@julesrx/utils/theme';
 
 const Point = memo(() => <span>&bull;</span>);
 
