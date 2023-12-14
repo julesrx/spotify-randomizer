@@ -7,6 +7,7 @@ export default function Layout() {
 
   return (
     <DevicesContext.Provider value={{ activeDevice, lastActiveDevice, currentlyPlaying }}>
+      <div className="fixed top-0 bottom-0 bg-black h-screen w-screen -z-10 opacity-80"></div>
       <Nav />
       <main className="h-screen">
         <Home />
