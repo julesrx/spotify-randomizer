@@ -4,6 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        white: '#fafafa',
         // https://developer.spotify.com/documentation/design
         spotify: { green: '#1DB954', white: '#FFF', black: '#191414' },
       },

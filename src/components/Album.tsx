@@ -9,6 +9,7 @@ import { addItemToPlaybackQueue, getAlbumTracks, getPaginated } from '~/utils/sp
 import { cache, locale } from '~/utils';
 import { useDeviceContext } from '~/context';
 import ExternalLink from './ExternalLink';
+import { background } from '@julesrx/utils/theme';
 
 const Point = memo(() => <span>&bull;</span>);
 
@@ -74,18 +75,24 @@ export default function Album({ album, onRandomize }: Props) {
     onRandomize();
   };
 
+  useEffect(() => {
+    document.body.style.backgroundImage = cover ? `url(${cover})` : '';
+
+    return () => {
+      document.body.style.backgroundImage = '';
+    };
+  }, [cover]);
+
   return (
     <div className="flex flex-col md:flex-row md:justify-center md:space-x-2 lg:space-x-4 space-y-2 md:space-y-0 px-2 md:px-0">
       <ExternalLink to={url}>
         <img src={cover} alt={name} className="w-80 h-80 mx-auto md:w-60 md:h-60 lg:w-80 lg:h-80" />
       </ExternalLink>
-
       <div className="md:w-80 lg:w-[32rem] flex flex-col justify-center md:justify-between">
         <div>
           <h2 className="text-3xl font-bold text-center md:text-left">
             <ExternalLink to={url}>{name}</ExternalLink>
           </h2>
-
           <div className="flex space-x-1 justify-center md:justify-start">
             <h3 className="font-bold">
               <ExternalLink to={artist.external_urls.spotify}>{artist.name}</ExternalLink>
@@ -93,10 +100,8 @@ export default function Album({ album, onRandomize }: Props) {
             <Point />
             <div title={releaseDateFormatted}>{releaseYear}</div>
           </div>
-
           <div className="flex space-x-1 opacity-70 text-sm justify-center md:justify-start">
             <span>{totalTracks} songs</span>
-
             {!isLoading && tracks && (
               <>
                 <Point />
@@ -104,12 +109,10 @@ export default function Album({ album, onRandomize }: Props) {
               </>
             )}
           </div>
-
           <div className="flex space-x-1 opacity-70 text-sm justify-center md:justify-start">
             <span title={addedAtFormatted}>Added {addedAgo}</span>
           </div>
         </div>
-
         <div className="flex space-x-2 mt-4 md:mt-0 justify-center md:justify-start">
           <button
             type="button"
@@ -124,7 +127,6 @@ export default function Album({ album, onRandomize }: Props) {
           >
             <QueueListIcon className="h-6 w-6" />
           </button>
-
           <button type="button" onClick={onRandomize} title="Randomize">
             <ArrowPathIcon className="h-6 w-6" />
           </button>
