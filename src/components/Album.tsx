@@ -1,6 +1,6 @@
 import { useState, useEffect, memo } from 'react';
 import useSWR from 'swr';
-import { createDurationFormatter, createTimeAgoFormatter } from '@julesrx/utils/dates';
+import { createDurationFormatter, createTimeAgoFormatter } from '@julesrx/utils';
 import type { SavedAlbum, Track } from '@spotify/web-api-ts-sdk';
 import ArrowPathIcon from '~icons/heroicons/arrow-path-solid';
 import QueueListIcon from '~icons/heroicons/queue-list-solid';

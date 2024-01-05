@@ -1,4 +1,4 @@
-import { createCacheStorage } from '@julesrx/utils/cache';
+import { createCacheStorage } from '@julesrx/utils';
 
 export const locale = 'en-US';
 
